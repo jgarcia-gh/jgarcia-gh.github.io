@@ -18,7 +18,7 @@ La POO se basa en organizar el código en clases en las que se definen las carac
 Las clases son una especie de plantillas que nos permiten definir cuáles son las características y comportamientos de los objetos creados a partir de ella.
 
 La sintaxis de una clase es la siguiente:
-```
+```csharp
 class NombreClase{
     // definición de la clase
 }
@@ -39,24 +39,24 @@ Por supuesto, se nos podrían ocurrir mil características y comportamientos dif
 
 ## Campos o atributos
 Mediante los campos o atributos representaremos las características de una clase. Las sintaxis general es la siguiente:
-
+```csharp
     class NombreClase{
         tipo atributo1;
         tipo atributo2;
         ...
     }
-
+```
 Donde _tipo_ es el tipo del atributo y _atributo1_ su identificador. Como podemos ver, no dejan de ser declaraciones de variables.
 
 Podemos inicializar los atributos con un valor por defecto de la siguiente forma:
-
+```csharp
     class NombreClase{
         tipo atributo1 = valor;
         ...
     }
-
-Los atributos son variables que están declaradas dentro de la clase, pero fuera de los métodos. Siempre las declararemos al inicio de la clase.
 ```
+Los atributos son variables que están declaradas dentro de la clase, pero fuera de los métodos. Siempre las declararemos al inicio de la clase.
+```csharp
 class Cuenta{
     string numeroCuenta;
     string titular;
