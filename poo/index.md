@@ -18,10 +18,11 @@ La POO se basa en organizar el código en clases en las que se definen las carac
 Las clases son una especie de plantillas que nos permiten definir cuáles son las características y comportamientos de los objetos creados a partir de ella.
 
 La sintaxis de una clase es la siguiente:
-
-    class NombreClase{
-        // definición de la clase
-    }
+```
+class NombreClase{
+    // definición de la clase
+}
+```
 
 Donde _NombreClase_ es el nombre de la clase.
 
@@ -55,13 +56,13 @@ Podemos inicializar los atributos con un valor por defecto de la siguiente forma
     }
 
 Los atributos son variables que están declaradas dentro de la clase, pero fuera de los métodos. Siempre las declararemos al inicio de la clase.
-
-    class Cuenta{
-        string numeroCuenta;
-        string titular;
-        float saldo;
-    }
-
+```
+class Cuenta{
+    string numeroCuenta;
+    string titular;
+    float saldo;
+}
+```
 ### Ámbito de los atributos.
 Como ocurre con el resto de variables, el ámbito de los atributos viene determinado por el bloque de llaves {} que lo contiene, por tanto los atributos pueden ser accedidos desde cualquier método de la clase.
 
