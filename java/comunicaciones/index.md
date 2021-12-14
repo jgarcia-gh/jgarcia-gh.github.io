@@ -4,6 +4,7 @@ layout: unit
 ---
 
 # Comunicaciones en red 
+
 - [Introducción](#introducci-n)
   * [Elementos de la comunicación](#elementos-de-la-comunicaci-n)
   * [Arquitectura cliente/servidor](#arquitectura-cliente-servidor)
@@ -18,7 +19,9 @@ layout: unit
     + [Protocolo UDP](#protocolo-udp)
   * [Nivel de Internet](#nivel-de-internet)
 - [Bibliografía](#bibliograf-a)
+
 ## Introducción
+
 Las redes permiten interconectar los ordenadores físicamente con el objetivo de que se puedan comunicar entre ellos. Hoy en día la gran mayoría de aplicaciones hacen uso de estas redes para compartir información (chats, streaming de video, almacenamiento en la nube, etc.). 
 
 Como veremos el proceso de comunicación es complejo pero los lenguajes de programación como Java simplifican mucho esta tarea a los programadores. 
@@ -81,7 +84,7 @@ La arquitectura TCP/IP está compuesta por cuatro niveles: aplicación, transpor
 Al enviar datos cada nivel añade una serie de cabeceras a los datos. Dicha cabecera incluye información relevante para los protocolos del propio nivel. Al recibir los datos estas cabeceras se van quitando.
 
 <div style="text-align: center">
-<img src="./img/img2.gif" alt="Cabeceras de los datos" width="100%">
+<img src="./img/img2.gif" alt="Cabeceras de los datos" width="80%">
 </div>
 
 ### Nivel de aplicación
@@ -178,4 +181,5 @@ Permite el envío de datos desde un dispositivo origen a un dispositivo destino 
 La direcciones IP están compuestas por 32 bits que permiten identificar de forma única una interfaz de red. Las cabeceras de los datagramas IP incluyen la dirección IP de origen y las direcciones IP de destino.
 
 ## Bibliografía
+
 https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m09_/web/fp_dam_m09_htmlindex/WebContent/u2/a1/continguts.html
