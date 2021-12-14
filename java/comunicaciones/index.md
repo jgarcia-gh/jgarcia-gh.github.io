@@ -2,22 +2,37 @@
 title: Comunicaciones en red
 layout: unit
 ---
-# Conceptos teóricos
 
+# Comunicaciones en red 
+- [Introducción](#introducci-n)
+  * [Elementos de la comunicación](#elementos-de-la-comunicaci-n)
+  * [Arquitectura cliente/servidor](#arquitectura-cliente-servidor)
+- [Arquitectura de redes](#arquitectura-de-redes)
+  * [Modelo de referencia OSI](#modelo-de-referencia-osi)
+  * [Modelo TCP/IP](#modelo-tcp-ip)
+  * [Arquitectura en niveles o capas](#arquitectura-en-niveles-o-capas)
+- [Arquitectura TCP/IP](#arquitectura-tcp-ip)
+  * [Nivel de aplicación](#nivel-de-aplicaci-n)
+  * [Nivel de transporte](#nivel-de-transporte)
+    + [Protocolo TCP](#protocolo-tcp)
+    + [Protocolo UDP](#protocolo-udp)
+  * [Nivel de Internet](#nivel-de-internet)
+- [Bibliografía](#bibliograf-a)
+## Introducción
 Las redes permiten interconectar los ordenadores físicamente con el objetivo de que se puedan comunicar entre ellos. Hoy en día la gran mayoría de aplicaciones hacen uso de estas redes para compartir información (chats, streaming de video, almacenamiento en la nube, etc.). 
 
 Como veremos el proceso de comunicación es complejo pero los lenguajes de programación como Java simplifican mucho esta tarea a los programadores. 
 
-## Elementos que intervienen la comunicación
+### Elementos de la comunicación
 
-No podemos hablar de comunicación sin mencionar los elementos que participan en ella:
+Los elementos que participan toda comunicación son:
 - Emisor: Agente que genera la información y la transfiere al medio.
 - Receptor: Agente que recibe la información a través del medio.
 - Mensaje: Información que se transmite.
 - Canal o medio: Elemento físico que transmite el mensaje.
 - Código: Sistema de señales o signos utilizados para transmitir el mensaje
 
-## Arquitectura cliente/servidor
+### Arquitectura cliente/servidor
 
 La arquitectura cliente/servidor es el modelo más utilizado para realizar la comunicación entre dispositivos.
 
@@ -27,7 +42,9 @@ El **servidor** es el dispositivo que ofrece un servicio como por ejemplo compar
 
 Por su parte el **cliente** es el dispositivo que hace uso de los servicios ofrecidos por los servidores. Se conecta a ellos para hacerles peticiones. Un ejemplo son los navegadores de Internet.
 
-![Servidor y cliente web](./img/img1.png "Servidor y cliente web")
+<div style="text-align: center">
+<img src="./img/img1.png" alt="Servidor y cliente web" min-width=200px width="70%">
+</div>
 
 ## Arquitectura de redes
 
@@ -63,7 +80,9 @@ La arquitectura TCP/IP está compuesta por cuatro niveles: aplicación, transpor
 
 Al enviar datos cada nivel añade una serie de cabeceras a los datos. Dicha cabecera incluye información relevante para los protocolos del propio nivel. Al recibir los datos estas cabeceras se van quitando.
 
-![Cabeceras de los datos](./img/img2.gif)
+<div style="text-align: center">
+<img src="./img/img2.gif" alt="Cabeceras de los datos" width="100%">
+</div>
 
 ### Nivel de aplicación
 
@@ -158,11 +177,5 @@ Permite el envío de datos desde un dispositivo origen a un dispositivo destino 
 
 La direcciones IP están compuestas por 32 bits que permiten identificar de forma única una interfaz de red. Las cabeceras de los datagramas IP incluyen la dirección IP de origen y las direcciones IP de destino.
 
-<># Comunicaciones en Java
-<>## Direccionamiento
-<>## Sockets
-<>### Sockets no orientados a conexión
-<>### Sockets orientados a conexión
-
-# Bibliografía
+## Bibliografía
 https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m09_/web/fp_dam_m09_htmlindex/WebContent/u2/a1/continguts.html
