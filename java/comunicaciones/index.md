@@ -5,26 +5,35 @@ layout: unit
 
 # Comunicaciones en red 
 
-- [Introducción](#introducci-n)
-  * [Elementos de la comunicación](#elementos-de-la-comunicaci-n)
-  * [Arquitectura cliente/servidor](#arquitectura-cliente-servidor)
-- [Arquitectura de redes](#arquitectura-de-redes)
-  * [Modelo de referencia OSI](#modelo-de-referencia-osi)
-  * [Modelo TCP/IP](#modelo-tcp-ip)
-  * [Arquitectura en niveles o capas](#arquitectura-en-niveles-o-capas)
-- [Arquitectura TCP/IP](#arquitectura-tcp-ip)
-  * [Nivel de aplicación](#nivel-de-aplicaci-n)
-  * [Nivel de transporte](#nivel-de-transporte)
-    + [Protocolo TCP](#protocolo-tcp)
-    + [Protocolo UDP](#protocolo-udp)
-  * [Nivel de Internet](#nivel-de-internet)
-- [Bibliografía](#bibliograf-a)
+- [Introducción](#introducción)
+- [Conceptos teóricos](#conceptos-teóricos)
+  * [Elementos de la comunicación](#elementos-de-la-comunicación)
+  * [Arquitectura cliente/servidor](#arquitectura-cliente/servidor)
+  * [Arquitectura de redes](#arquitectura-de-redes)
+    + [Modelo de referencia OSI](#modelo-de-referencia-osi)
+    + [Arquitectura TCP/IP](#arquitectura-tcp/ip)
+    + [Arquitectura en niveles o capas](#arquitectura-en-niveles-o-capas)
+  * [Arquitectura TCP/IP](#arquitectura-tcp/ip)
+    + [Nivel de aplicación](#nivel-de-aplicación)
+    + [Nivel de transporte](#nivel-de-transporte)
+      - [Protocolo TCP](#protocolo-tcp)
+      - [Protocolo UDP](#protocolo-udp)
+    + [Nivel de Internet](#nivel-de-internet)
+- [Bibliografía](#bibliografía)
 
 ## Introducción
 
-Las redes permiten interconectar los ordenadores físicamente con el objetivo de que se puedan comunicar entre ellos. Hoy en día la gran mayoría de aplicaciones hacen uso de estas redes para compartir información (chats, streaming de video, almacenamiento en la nube, etc.). 
+Las redes permiten interconectar físicamente dispositivos con el objetivo de que se puedan comunicar.
 
-Como veremos el proceso de comunicación es complejo pero los lenguajes de programación como Java simplifican mucho esta tarea a los programadores. 
+Hoy en día la gran mayoría de aplicaciones hacen uso de estas redes para compartir información (chats, streaming de video, almacenamiento en la nube, etc.). 
+
+El proceso de comunicación entre dos procesos que se ejecutan en diferentes máquinas es complejo ya que involucra una gran cantidad de protocolos. No obstante veremos que los lenguajes de programación como Java simplifican mucho esta tarea a los programadores. 
+
+## Conceptos teóricos
+
+En este apartado estudiaremos los principales conceptos relacionados con las comunicaciones en red como es el modelo de referencia OSI, la arquitectura TCP/IP y sus niveles.
+
+Éste no es un artículo sobre redes o los protocolos de comunciación si no de programación de comunicaciones en red en Java. No obstante considero importante tener asentados una serie de conocimientos antes de empezar a teclear código.
 
 ### Elementos de la comunicación
 
@@ -49,11 +58,11 @@ Por su parte el **cliente** es el dispositivo que hace uso de los servicios ofre
 <img src="./img/img1.png" alt="Servidor y cliente web" min-width=200px width="70%">
 </div>
 
-## Arquitectura de redes
+### Arquitectura de redes
 
 A finales de los años 70 los fabricantes desarrollaban diferentes dispositivos para crear redes privadas. En aquella época no se pensaba en la compatibilidad de hardware y software entre fabricantes por lo que los dispositivos solo funcionaban si se conectaban a otros dispositivos del mismo fabricante.
 
-### Modelo de referencia OSI
+#### Modelo de referencia OSI
 
 En 1983 la Organización Internacional de Estándares ISO (International Organization for Standardization) desarrolla el modelo de Interconexión de Sistemas Abiertos OSI (Open Systems Interconnection) con el que pretende normalizar la comunicación entre dispositivos.
 
@@ -61,7 +70,7 @@ OSI es un modelo conceptual, esto quiere decir que ofrece los fundamentos de dis
 
 > Un protocolo es un sistema de reglas que permiten que dos o más dispositivos se comuniquen entre ellos.
 
-### Modelo TCP/IP
+#### Arquitectura TCP/IP
 
 Desde finales de los años 70, esto es varios años antes del desarrollo del modelo OSI, la Agencia de Proyectos de Investigación Avanzados de Defensa  (DARPA) perteneciente al Departamento de Defensa de los Estados Unidos había estado trabajando en la red ARPANET con el objetivo de interconectar diferentes instituciones académicas. ARPANET hacía uso de la arquitectura TCP/IP imponiéndose al modelo OSI.
 
@@ -71,13 +80,13 @@ Si queréis saber más sobre el tema:
 
 [Breve historia de cómo TCP/IP se impuso a OSI Parte 2](https://www.javiergarzas.com/2013/09/tcpip-se-impuso-a-osi-2.html)
 
-### Arquitectura en niveles o capas
+#### Arquitectura en niveles o capas
 
 Tanto el modelo OSI como la arquitectura TCP/IP se basan en niveles o capas. Cada capa proporciona servicios a la capa contigua superior y utiliza los servicios que le presta la capa contigua inferior. De esta forma el problema de comunicar dos dispositivos se divide en subproblemas más pequeños y por tanto más manejables.
 
 [¿Por qué estructurar la arquitectura en niveles o capas?](./res/modelo_niveles.pdf)
 
-## Arquitectura TCP/IP
+### Arquitectura TCP/IP
 
 La arquitectura TCP/IP está compuesta por cuatro niveles: aplicación, transporte, Internet y acceso a la red.
 
@@ -87,7 +96,7 @@ Al enviar datos cada nivel añade una serie de cabeceras a los datos. Dicha cabe
 <img src="./img/img2.gif" alt="Cabeceras de los datos" width="80%">
 </div>
 
-### Nivel de aplicación
+#### Nivel de aplicación
 
 Este nivel es el más alto y definen los protocolos que  utilizan las aplicaciones para comunicarse tales como HTTP, FTP, IMAP, SMTP o DNS.
 
@@ -133,7 +142,7 @@ Por otro lado tenemos el cuerpo:
 ```
 Que incluye el contenido del mensaje.
 
-### Nivel de transporte
+#### Nivel de transporte
 
 El nivel de transporte recibe el mensaje del nivel de aplicación, lo divide en segmentos y añade una cabecera a cada uno de ellos.
 
@@ -145,7 +154,7 @@ El puerto de origen y destino es uno de los datos que se incluyen en la cabecera
 
 Los protocolos de este nivel son TCP (Transmission Control Protocol) y UDP (User Datagram Protocol).
 
-#### Protocolo TCP
+##### Protocolo TCP
 
 Este nivel se encarga de que los paquetes lleguen en secuencia y sin errores desde la aplicación de origen hasta la aplicación de destino.
 
@@ -157,7 +166,7 @@ Las principales características del protocolo son:
 - Evita la saturación de la red (control de flujo).
 
 
-#### Protocolo UDP
+##### Protocolo UDP
 
 Las principales características del protocolo son:
 - Es un protocolo no orientado a la conexión.
@@ -166,7 +175,7 @@ Las principales características del protocolo son:
 - No asegura que lleguen sin errores. 
 - No lleva a cabo control de flujo.
 
-### Nivel de Internet
+#### Nivel de Internet
 
 El nivel de Internet recibe los segmentos del nivel de transporte, los divide en datagramas y añade a cada uno de ellos una cabecera.
 
