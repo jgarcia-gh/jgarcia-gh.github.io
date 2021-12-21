@@ -5,22 +5,29 @@ layout: unit
 
 # Comunicaciones en red 
 
-- [Introducción](#introducción)
-- [Conceptos teóricos](#conceptos-teóricos)
-  * [Elementos de la comunicación](#elementos-de-la-comunicación)
-  * [Arquitectura cliente/servidor](#arquitectura-cliente-servidor)
-  * [Arquitectura de redes](#arquitectura-de-redes)
-    + [Modelo de referencia OSI](#modelo-de-referencia-osi)
-    + [Arquitectura TCP/IP](#arquitectura-tcp/ip)
-    + [Arquitectura en niveles o capas](#arquitectura-en-niveles-o-capas)
-  * [Arquitectura TCP/IP](#arquitectura-tcp/ip-1)
-    + [Nivel de acceso a la red](#nivel-de-acceso-a-la-red)
-    + [Nivel de Internet](#nivel-de-internet)
-    + [Nivel de transporte](#nivel-de-transporte)
-      - [Protocolo TCP](#protocolo-tcp)
-      - [Protocolo UDP](#protocolo-udp)
-    + [Nivel de aplicación](#nivel-de-aplicación)
-
+- [Comunicaciones en red](#comunicaciones-en-red)
+  - [Introducción](#introducción)
+  - [Conceptos teóricos](#conceptos-teóricos)
+    - [Elementos de la comunicación](#elementos-de-la-comunicación)
+    - [Arquitectura cliente/servidor](#arquitectura-clienteservidor)
+    - [Arquitectura de redes](#arquitectura-de-redes)
+      - [Modelo de referencia OSI](#modelo-de-referencia-osi)
+      - [Arquitectura TCP/IP](#arquitectura-tcpip)
+      - [Arquitectura en niveles o capas](#arquitectura-en-niveles-o-capas)
+    - [Arquitectura TCP/IP](#arquitectura-tcpip-1)
+      - [Nivel de acceso a la red](#nivel-de-acceso-a-la-red)
+      - [Nivel de Internet](#nivel-de-internet)
+      - [Nivel de transporte](#nivel-de-transporte)
+        - [Protocolo TCP](#protocolo-tcp)
+        - [Protocolo UDP](#protocolo-udp)
+      - [Nivel de aplicación](#nivel-de-aplicación)
+- [Comunicaciones en Java](#comunicaciones-en-java)
+  - [Sockets orientados a conexión](#sockets-orientados-a-conexión)
+    - [ServerSocket](#serversocket)
+    - [Socket](#socket)
+    - [Flujo de datos](#flujo-de-datos)
+- [Bibliografía](#bibliografía)
+  
 ## Introducción
 
 Una red de computadoras u ordenadores es un conjunto de dispositivos interconectados físicamente entre ellos con el fin de compartir información y recursos. Todos tenemos en casa un red privada que interconecta los diferentes dipositivos (móviles, ordenadores, televisión, etc.) ya sea de forma alámbrica y/o inalámbrica. El término Internet hace referencia a al conjunto de redes interconectadas entre ellas a nivel mundial.
@@ -256,7 +263,7 @@ Anteriormente hemos visto que los métodos *getInputStream()* y *getOutputStream
 
 Por eso utilizaremos la clase *DataInputStream* y *DataOutputStream* que proveen métodos para realizar la lectura y escritura de texto y tipos de *Java* mediante los métodos *readInt()*, *readDouble()*, *readLine()*, *readUTF()* y *writeInt()*, *writeDouble()*, *writeUTF()* respectivamente.
 
-#### Ejemplo 1
+**Ejemplo 1**
 
 A continuación, se muestra la implementación de un servidor y un cliente de forma que el servidor envía en primer lugar información al cliente y a continuación es el cliente quien envía información al servidor.
 
@@ -336,7 +343,7 @@ public class Cliente {
 
 Hay que tener en cuenta que los métodos de lectura de los *streams* son bloqueantes. Esto quiere decir que si llamamos al método *readUTF()* y el *socket* no ha recibido información que leer, el hilo quedará bloqueado hasta recibir datos.
 
-#### Ejercicio 1
+**Ejercicio 1**
 
 Implementa un cliente y servidor de forma que el cliente pida al usuario que escriba líneas de texto. Las líneas se enviarán al servidor, quien las mostrará por pantalla. El cliente dejará de pedir líneas al usuario cuando escriba la palabra "fin".
 
@@ -373,14 +380,16 @@ Process finished with exit code 0
 ````
 Como se puede ver, en el servidor se produce una excepción *EOFException*. Esto se debe a que el servidor se encuentra bloqueado esperando datos en su flujo de entrada cuando el cliente se desconecta como consecuencia de que el usuario ha escrito la palabra fin. Esta excepción es normal que ocurra, lo que podemos hacer es capturarla en el *catch* y tratarla de forma adecuada.
 
-#### Ejercicio 2
+**Ejercicio 2**
 
 Implementa un cliente y servidor de forma que el cliente pida al usuario que escriba números positivos. Los números se enviarán al servidor. Cuando el usuario escriba un número inferior o igual a 0 el servidor mostrará por pantalla la suma total de los números recibidos.
 
-#### Ejercicio 3
+**Ejercicio 3**
 
 Modifica el ejemplo 1 para que el servidor y el cliente se envíen información de forma continuada hasta que alguno de los dos escriba la palabra "fin". Es decir, el servidor enviará información al cliente, luego del cliente al servidor, de nuevo del servidor al cliente, así hasta que uno de los dos escriba "fin".
 
 # Bibliografía
 
-https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m09_/web/fp_dam_m09_htmlindex/index.html
+- https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m09_/web/fp_dam_m09_htmlindex/index.html
+
+- Martín, M. (2018). Programación de servicios y procesos. Madrid: Ibergarceta Publicaciones, S.L.
