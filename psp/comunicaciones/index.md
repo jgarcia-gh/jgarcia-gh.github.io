@@ -345,40 +345,38 @@ Hay que tener en cuenta que los métodos de lectura de los *streams* son bloquea
 
 **Ejercicio 1**
 
-Implementa un cliente y servidor de forma que el cliente pida al usuario que escriba líneas de texto. Las líneas se enviarán al servidor, quien las mostrará por pantalla. El cliente dejará de pedir líneas al usuario cuando escriba la palabra "fin".
+Implementa un cliente y servidor de forma que el cliente pida al usuario que escriba líneas de texto. Las líneas se enviarán al servidor, quien las mostrará por pantalla. El cliente dejará de pedir líneas al usuario cuando escriba la palabra "fin". 
 
-A continuación, se muestra un ejemplo de ejecución del ejercicio 1.
+Ten en cuenta que la palabra "fin" debe enviarse al servidor para que éste no vuelva a esperar datos en su flujo de entrada.
+
+A continuación, se muestra un ejemplo de ejecución.
 ````
 ---CLIENTE---
-Escribe la línea de texto a enviar: Hola, soy el cliente
+Escribe la línea de texto a enviar: hola
 Envío información al servidor...
-Escribe la línea de texto a enviar: y voy a enviar mensajes al servidor
+Escribe la línea de texto a enviar: esto
 Envío información al servidor...
-Escribe la línea de texto a enviar: hasta que escriba la palabra
+Escribe la línea de texto a enviar: es
+Envío información al servidor...
+Escribe la línea de texto a enviar: una
+Envío información al servidor...
+Escribe la línea de texto a enviar: prueba
 Envío información al servidor...
 Escribe la línea de texto a enviar: fin
+Envío información al servidor...
 Finalizando cliente
-
-Process finished with exit code 0
 ````
 ````
 ---SERVIDOR---
 Esperando conexión de un cliente...
 ¡Cliente conectado!
-El mensaje recibido es: Hola, soy el cliente
-El mensaje recibido es: y voy a enviar mensajes al servidor
-El mensaje recibido es: hasta que escriba la palabra
-java.io.EOFException
-	at java.io.DataInputStream.readUnsignedShort(DataInputStream.java:340)
-	at java.io.DataInputStream.readUTF(DataInputStream.java:589)
-	at java.io.DataInputStream.readUTF(DataInputStream.java:564)
-	at ejercicio1.Servidor.main(Servidor.java:26)
+El mensaje recibido es: hola
+El mensaje recibido es: esto
+El mensaje recibido es: es
+El mensaje recibido es: una
+El mensaje recibido es: prueba
 Finalizando servidor
-
-Process finished with exit code 0
-
 ````
-Como se puede ver, en el servidor se produce una excepción *EOFException*. Esto se debe a que el servidor se encuentra bloqueado esperando datos en su flujo de entrada cuando el cliente se desconecta como consecuencia de que el usuario ha escrito la palabra fin. Esta excepción es normal que ocurra, lo que podemos hacer es capturarla en el *catch* y tratarla de forma adecuada.
 
 **Ejercicio 2**
 
@@ -386,7 +384,90 @@ Implementa un cliente y servidor de forma que el cliente pida al usuario que esc
 
 **Ejercicio 3**
 
-Modifica el ejemplo 1 para que el servidor y el cliente se envíen información de forma continuada hasta que alguno de los dos escriba la palabra "fin". Es decir, el servidor enviará información al cliente, luego del cliente al servidor, de nuevo del servidor al cliente, así hasta que uno de los dos escriba "fin".
+Modifica el ejemplo 1 para que el servidor y el cliente se envíen texto de forma continuada y alternada hasta que alguno de los dos escriba la palabra "fin". Primero será el cliente el que enviará el texto introducido por el usuario al servidor, luego será el servidor quien envie texto al cliente y así sucesivamente hasta que uno de los dos escriba "fin".
+
+A continuación, se muestra un ejemplo de ejecución.
+
+````
+---SERVIDOR---
+Esperando conexión de un cliente...
+¡Cliente conectado!
+El mensaje recibido es: hola servidor
+Escribe la línea de texto a enviar: hola cliente
+Envío información al cliente...
+Finalizando servidor
+````
+
+````
+---CLIENTE---
+Escribe la línea de texto a enviar: hola servidor
+Envío información al servidor...
+El mensaje recibido es: hola cliente
+Escribe la línea de texto a enviar: fin
+Envío información al servidor...
+Finalizando cliente
+````
+### Conexión de múltiples clientes
+
+Hasta ahora los servidores que hemos implementado solo han permitido la conexión de un cliente. Vamos a intentar encontrar la forma de conectar múltiples clientes.
+
+**Ejemplo 2**
+
+Imaginemos que queremos desarrollar el siguiente programa: Un servidor que admita la conexión de dos clientes. Los clientes lo único que harán será enviar un mensaje que el servidor mostrará por pantalla.
+
+A la hora de implementar el servidor podríamos pensar en llamar dos veces al método _accept_ y así obtener dos _sockets_: _conexionCliente1_ y _conexionCliente2_ como se muestra a continuación:
+
+```java
+System.out.println("---SERVIDOR---");
+ServerSocket server = new ServerSocket(1234);
+
+System.out.println("Esperando conexión del primer cliente...");
+Socket conexionCliente1 = server.accept();
+System.out.println("¡Cliente conectado!"); // Se ha conectado el primer cliente
+
+System.out.println("Esperando conexión del segundo cliente...");
+Socket conexionCliente2 = server.accept();
+System.out.println("¡Cliente conectado!"); // Se ha conectado el segundo cliente
+
+```
+Luego podríamos obtener los flujos de entrada para poder leer los datos que nos envien los clientes.
+
+```java
+// Obtenemos los flujos de entrada
+InputStream entrada1 = conexionCliente1.getInputStream();
+DataInputStream flujoEntrada1 = new DataInputStream(entrada1);
+
+InputStream entrada2 = conexionCliente1.getInputStream();
+DataInputStream flujoEntrada2 = new DataInputStream(entrada2);
+```
+
+_flujoEntrada1_ permitirá leer los datos enviados por el primer cliente y _flujoEntrada2_ los datos enviados por el segundo cliente.
+
+Finalmente, leeríamos los flujos de entrada para obtener el mensaje enviado por los clientes:
+
+```java
+// Recibimos datos del primer cliente
+String lineaRecibida1 = flujoEntrada1.readUTF();
+System.out.println("El mensaje recibido es: " + lineaRecibida1);
+
+// Recibimos datos del segundo cliente
+String lineaRecibida2 = flujoEntrada2.readUTF();
+System.out.println("El mensaje recibido es: " + lineaRecibida2);
+```
+
+La solución anterior tiene un grave problema: Una vez conectados los dos clientes el servidor quedará a la espera de que el primero de ellos le envíe un mensaje:
+
+```java
+String lineaRecibida1 = flujoEntrada1.readUTF();
+
+```
+ Pero, ¿Qué ocurre si el segundo cliente se adelanta a la hora de enviar el mensaje?. En ese caso el segundo cliente enviará el mensaje, pero el servidor no mostrará nada por pantalla porque se encuentra bloqueado, a la espera de recibir el mensaje del primer cliente.
+
+La solución a este problema pasa por utilizar hilos. El servidor, cada vez que reciba la conexión de un cliente, debería lanzar un hilo. El hilo se encargará de gestionar la comunicación con el cliente.
+
+**Ejercicio 4**
+
+Implementa un servidor que permita la conexión de múltiples clientes. Cada vez que se conecte un cliente se creará un hilo encargado de recibir los datos del cliente asignado y mostrarlos por pantalla. Los clientes lo que harán será pedir al usuario que escriba líneas de texto. El cliente dejará de pedir líneas al usuario cuando escriba la palabra "fin". En ese momento el cliente finalizará la conexión. 
 
 # Bibliografía
 
