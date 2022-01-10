@@ -456,19 +456,20 @@ String lineaRecibida2 = flujoEntrada2.readUTF();
 System.out.println("El mensaje recibido es: " + lineaRecibida2);
 ```
 
-La solución anterior tiene un grave problema: Una vez conectados los dos clientes el servidor quedará a la espera de que el primero de ellos le envíe un mensaje:
+La solución anterior tiene un grave problema: Una vez conectados los dos clientes el servidor quedará bloqueado en la siguiente línea a la espera de recibir datos del primer cliente.
 
 ```java
 String lineaRecibida1 = flujoEntrada1.readUTF();
-
 ```
- Pero, ¿Qué ocurre si el segundo cliente se adelanta a la hora de enviar el mensaje?. En ese caso el segundo cliente enviará el mensaje, pero el servidor no mostrará nada por pantalla porque se encuentra bloqueado, a la espera de recibir el mensaje del primer cliente.
+Hasta que el servidor no reciba los datos del primer cliente no podrá continuar su ejecución y por tanto no podrá recibir los datos del segundo cliente.
 
-La solución a este problema pasa por utilizar hilos. El servidor, cada vez que reciba la conexión de un cliente, debería lanzar un hilo. El hilo se encargará de gestionar la comunicación con el cliente.
+¿Y qué ocurre si estando el servidor esperando los datos del primer cliente el segundo envía los datos? Pues que el mensaje se perderá.
+
+La solución a este problema pasa por utilizar hilos. El servidor, cada vez que reciba la conexión de un cliente, debería lanzar un hilo. El hilo se encargará de gestionar la comunicación con el cliente. De esta forma aunque un hilo se quede bloqueado a la espera de recibir datos de un cliente, el resto de hilos podrán seguir trabajando de forma independiente.
 
 **Ejercicio 4**
 
-Implementa un servidor que permita la conexión de múltiples clientes. Cada vez que se conecte un cliente se creará un hilo encargado de recibir los datos del cliente asignado y mostrarlos por pantalla. Los clientes lo que harán será pedir al usuario que escriba líneas de texto. El cliente dejará de pedir líneas al usuario cuando escriba la palabra "fin". En ese momento el cliente finalizará la conexión. 
+Implementa un servidor que permita la conexión de múltiples clientes. Cada vez que se conecte un cliente se creará un hilo encargado de recibir los datos del cliente y mostrarlos por pantalla. Los clientes lo que harán será pedir al usuario que escriba líneas de texto. El cliente dejará de pedir líneas al usuario cuando escriba la palabra "fin". En ese momento el cliente finalizará la conexión. 
 
 # Bibliografía
 
