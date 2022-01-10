@@ -26,6 +26,7 @@ layout: unit
     - [ServerSocket](#serversocket)
     - [Socket](#socket)
     - [Flujo de datos](#flujo-de-datos)
+    - [Conexión de múltiples clientes](#conexión-de-múltiples-clientes)
 - [Bibliografía](#bibliografía)
   
 ## Introducción
