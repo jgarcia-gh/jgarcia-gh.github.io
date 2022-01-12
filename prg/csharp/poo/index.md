@@ -3,6 +3,28 @@ title: Programación Orientada a Objetos
 layout: unit
 ---
 # Programación Orientada a Objetos
+  * [Introducción](#introducción)
+  * [Clases](#clases)
+  * [Campos o atributos](#campos-o-atributos)
+    + [Ámbito de los atributos.](#-ámbito-de-los-atributos)
+  * [Métodos](#métodos)
+    + [Ocultación de atributos](#ocultación-de-atributos)
+    + [La clase Program](#la-clase-program)
+  * [Objetos](#objetos)
+    + [Creación de una instancia](#creación-de-una-instancia)
+  * [Modificadores de accesibilidad](#modificadores-de-accesibilidad)
+    + [Modificadores de accesibilidad para clases](#modificadores-de-accesibilidad-para-clases)
+    + [Modificadores de acceso para miembros](#modificadores-de-acceso-para-miembros)
+  * [Getters y Setters](#getters-y-setters)
+  * [Propiedades](#propiedades)
+    + [Propiedades automáticas](#propiedades-automáticas)
+  * [Constructores](#constructores)
+    + [Constructor por defecto](#constructor-por-defecto)
+    + [base](#base)
+  * [Trabajando con referencias](#trabajando-con-referencias)
+  * [Atributos y métodos estáticos](#atributos-y-métodos-estáticos)
+
+## Introducción
 
 La programación orientada a objetos, en adelante POO, es un paradigma de programación que tiene por objeto estructurar el código de forma similar a cómo el ser humano organiza y clasifica la realidad que le rodea. De esta forma se busca que el código sea más fácil de organizar, comprender y por tanto mantener.
 
@@ -181,7 +203,7 @@ Hasta ahora hemos visto cómo crear las "plantillas" o "moldes" que nos van a pe
 
 Los elementos creados a partir de una clase se llaman **instancias** u **objetos**. Todos los objetos creados a partir de una clase tienen los mismos atributos y métodos, pero los atributos de cada objeto tiene sus propios valores.
 
-Para crear una instancia de una clase en primer lugar es necesario declarar una variable. En el tipo de la variable escribiremos el nombre de la clase.
+Para **crear una instancia** de una clase en primer lugar es necesario declarar una variable. En el tipo de la variable escribiremos el nombre de la clase.
 
 ```csharp
 NombreClase nombreVariable;
@@ -196,6 +218,7 @@ Por supuesto, podríamos haber declarado e inicializado la variable en una únic
 ```csharp
 NombreClase nombreVariable = new NombreClase();
 ```
+
 A partir de ahora, si se cumplen ciertas condiciones que veremos más adelante, podremos acceder a los atributos y métodos de la instancia mediante el uso de un punto tras el nombre de la variable.
 
 ```csharp
@@ -235,13 +258,13 @@ static void Main(string[] args)
 ```
 Esto se debe a que no siempre podemos acceder a los campos y métodos de una instancia desde otra clase. Que podamos hacerlo depende del modificador de accesibilidad utilizado a la hora de declarar los miembros.
 
-## Modificadores de acceso
+## Modificadores de accesibilidad
 
-Las clases y sus miembros serán visibles o accesibles por otras clases en función de los modificadores de accesibilidad indicados.
+Las clases y sus miembros serán visibles o accesibles por otras clases en función de los modificadores de accesibilidad utilizados.
 
-### Modificadores de acceso para clases
+### Modificadores de accesibilidad para clases
 
-Los modificadores de acceso que podemos aplicar a una clase en C# son los siguientes:
+Los modificadores de accesibilidad que podemos aplicar a una clase en C# son los siguientes:
 
 - _public_: La clase es accesible desde cualquier clase del propio proyecto o de otro proyecto.
 - _internal_: La clase es accesible desde cualquier otra clase del propio proyecto pero no desde proyectos externos.
@@ -301,14 +324,27 @@ Que sea accesible un método significa que puede ser llamado. Que sea accesible 
 
 Si no indicamos el modificador  de accesibilidad de un miembro por defecto será _private_.
 
-Si observamos el código de la clase _Cuenta_ ENLACEEE. Vemos que los atributos _numeroCuenta_, _titular_ y _saldo_ no tienen modificador de acceso, por lo que por defecto su accesibilidad es _private_. Éste es el motivo por el que el siguiente código producía un error:
+Si observamos el código de la clase _Cuenta_. Vemos que los atributos _numeroCuenta_, _titular_ y _saldo_ no tienen modificador de acceso, por lo que por defecto su accesibilidad es _private_.
+
+
+```csharp
+class Cuenta
+{
+    string numeroCuenta;
+    string titular;
+    float saldo;   
+    ...
+}
+```
+
+Éste es el motivo por el que el siguiente código producía un error:
 
 ```csharp
 static void Main(string[] args)
 {
     Cuenta c1 = new Cuenta();
-    c1.saldo = 500; // Error
-    Console.WriteLine(c1.saldo); // Error
+    c1.saldo = 500; // Error, el campo saldo no es accesible
+    Console.WriteLine(c1.saldo); // Error, el campo saldo no es accesible
 }
 ```
 Este error se soluciona si añadimos el modificador de accesibilidad _public_ al campo _saldo_:
@@ -322,32 +358,204 @@ class Cuenta
     ...
 }
 ```
+Podríamos pensar que para evitar problemas lo mejor sería que todos los campos fueran públicos. No obstante **no es una práctica recomendada**. ¿Por qué? Porque un campo público puede ser modificado desde cualquier lugar del programa, con el consiguiente inconveniente: alguien podría asignar un valor inválido.
 
-Podríamos pensar que para evitar problemas lo mejor sería que todos los campos fueran públicos. No obstante **no es una práctica recomendada**. ¿Por qué? Porque un campo público puede ser modificado desde cualquier lugar del programa, con el consiguiente inconveniente: es imposible controlar los valores asignados, que pueden no tener sentido.
-
-Imaginemos que no queremos que el saldo de las cuentas pueda ser inferior a 0. Si el campo es público nada impide que alguien haga:
+Imaginemos que no queremos que el saldo de las cuentas pueda ser inferior a 0. Si el campo es público nada impide que otro programador haga:
 
 ```csharp
 static void Main(string[] args)
 {
     Cuenta c1 = new Cuenta();
-    c1.saldo = -200;
+    c1.saldo = -200; // Asignamos un valor inválido
 }
 ```
 
-C# soluciona este problema con las denominadas propiedades. Otros lenguajes como Java hacen uso de los denominados _getters_ y _setters_. En ambos casos el principio es similar.
+C# soluciona este problema con las denominadas **propiedades**. Otros lenguajes como Java hacen uso de los denominados _getters_ y _setters_. En ambos casos el principio es similar.
 
 ## Getters y Setters
 
-Esta solución es la que se utiliza en _Java_. Consiste en que los campos o atributos sean privados y se acceda a ellos a través de un método _set_ y _get_.
+Esta solución es la que se utiliza en _Java_. Consiste en que los campos o atributos sean siempre privados. Para acceder a ellos se utilizan métodos _set_ y _get_.
+
+A continuación, se muestra la clase _Cuenta_ programada en Java (podéis ver que la sintaxis es casi idéntica a C#).
+
+```java
+public class Cuenta
+{
+    ... 
+    private float saldo;
+    ...
+
+    public void setSaldo(float saldo){
+        if(saldo > 0){
+            this.saldo = saldo;
+        }
+    }
+    
+    public float getSaldo(){
+        return saldo;
+    }
+    ...
+}
+```
+Para obtener el valor del atributo _saldo_ se hará uso del método _getSaldo_ y para modificarlo el método _setSaldo_. Como vemos en el método _setSaldo_ esta estrategia nos permite escribir código para, entre otras cosas, controlar que el valor que se vaya asignar sea válido. A continuación, se muestra el uso de estos métodos:
+
+```java
+public static void main(String[] args)
+{
+    Cuenta c1 = new Cuenta();
+    c1.saldo = -200; // Error, el atributo saldo no es accesible
+    c1.setSaldo(200); // El saldo de la cuenta pasa a ser 200
+    c1.setSaldo(-500); // El saldo no se modifica ya que el valor -500 no es superior a 0.
+    System.out.println(c1.getSaldo()); // Mostramos el saldo por pantalla
+}
+```
 
 ## Propiedades
- C# introduce el concepto de propiedades.
+C# introduce el concepto de propiedades que, como veremos, se basa también en el concepto de los _getters_ y _setters_ pero con una sintaxis diferente.
+
+Una propiedad C# se define de la siguiente forma:
+
+```csharp
+private float saldo;
+public float Saldo
+{
+   get { return saldo; }
+   set { 
+       if(value > 0){
+           saldo = value;
+       }
+    }
+}
+```
+Donde:
+-	_saldo_ es un campo. Los campos siempre serán privados.
+-	_Saldo_ es una **propiedad**. Las propiedades siempre serán públicas.
+-	Entre llaves {} especificamos el _getter_ y _setter_ de la propiedad. Como vemos no se escriben los paréntesis como se haría en un métodonormal.
+-	La palabra clave _value_ representa el valor que recibe como entrada el setter y es del mismo tipo que el indicado en la propiedad.
+-	Tanto en el _setter_ como en el _getter_ podemos programar la lógica necesaria para tratar los datos, por ejemplo, que la edad sea superior a 0.
+
+La propiedad _Saldo_ se utilizaría del siguiente modo:
+
+```csharp
+static void Main(string[] args)
+{
+    Cuenta c1 = new Cuenta();
+    c1.saldo = 200; // Error, no podemos acceder al campo saldo ya que es privado
+    // Debemos acceder a través  de la propiedad:
+    c1.Saldo = 500; // El saldo pasa a ser 500
+    c1.Saldo = -200; // El saldo no se modifica, ya que el valor -200 no es superior a 0
+    Console.WriteLine(c1.Saldo); // Mostrará 500
+}
+```
+### Propiedades automáticas
+
+A veces no se quiere añadir ningún tipo de lógica en los _setters_ y _getters_. En esos casos se pueden utilizar **propiedades automáticas**, siguiendo la sintaxis:
+
+```csharp
+public string Titular { get; set; }
+```
+
+En este caso no es necesario especificar el campo privado _titular_ como sí hemos hecho a la hora de implementar la propiedad _Saldo_.
+
+> A la hora de implementar nuestras clases siempre utilizaremos propiedades y nunca campos o atrobitos privados.
 
 ## Constructores
-### Constructor genérico this
+
+Cuando se instancia una clase, los campos a los que no se les asigna un valor en su declaración se inicializan con un valor por defecto. En el caso de los tipos numéricos se inicializan con un 0, las referencias se inicializan a _null_ y los _booleanos_ con _false_. Por ejemplo, al instanciar la clase _Cuenta_ su saldo inicial siempre será 0.
+
+Los constructores son métodos que permiten inicializar los objetos que se instancian.
+
+Un constructor es un método especial que:
+-	Debe tener el mismo nombre que la clase.
+-	Se define sin tipo devuelto (ni siquiera _void_).
+-	Se ejecuta inmediatamente al instanciar una clase con el operador _new_.
+
+Al constructor, como a cualquier otro método, se le pueden pasar parámetros.
+
+Veamos un ejemplo con la clase _Cuenta_ en la que se define un constructor que recibe como parámetro el saldo inicial y se asigna a la propiedad correspondiente.
+
+```csharp
+class Cuenta
+{
+        string numeroCuenta;
+        string titular;
+        private float saldo;
+        public float Saldo
+        {
+            get { return saldo; }
+            set { 
+                if(value > saldo)
+                {
+                    saldo = value;
+                }
+            }
+        }
+
+        // Constructor
+        public Cuenta(float saldo)
+        {
+            Saldo = saldo;
+        }
+}
+```
+Si queremos instanciar la clase ahora deberemos indicar obligatoriamente su saldo.
+
+```csharp
+static void Main(string[] args)
+{
+    Cuenta c1 = new Cuenta(500);
+    Cuenta c2 = new Cuenta(); // Error, el constructor nos obliga a indicar el parámetro saldo. No podemos instanciar la clase de este modo.
+    Console.WriteLine(c1.Saldo); // Mostrará 500
+}
+```
+En una clase podemos tener múltiples constructores todos ellos con el mismo nombre pero con diferente número y/o tipo de parámetros de entrada. En este caso se dice que el constructor está **sobrecargado**.
+
+```csharp
+class Cuenta
+{
+    public float NumeroCuenta { get; set; }
+    public string Titular { get; set; }
+
+    private float saldo;
+    public float Saldo
+    {
+        get { return saldo; }
+        set { 
+            if(value > saldo)
+            {
+                saldo = value;
+            }
+        }
+    }
+
+    public Cuenta(float saldo)
+    {
+        Saldo = saldo;
+    }
+
+    public Cuenta(float saldo, string titular)
+    {
+        Saldo = saldo;
+        Titular = titular;
+    }
+
+    public Cuenta(float saldo, string titular, string numerCuenta)
+    {
+        Saldo = saldo;
+        Titular = titular;
+        NumeroCuenta = NumeroCuenta;
+    }
+    ...
+}
+```
+
+A partir de ahora podríamos instanciar la clase _Cuenta_ haciendo uso de cualquiera de los tres constructores.
+
+### Constructor por defecto
+
+Si no definimos ningún constructo, por defecto C# incluirá un constructor vacío que no recibe ningún parámetro ni tiene código en su cuerpo. Por eso podemos instanciar clases aunque no hayamos implementado ningún constructor.
+
+### base
 ## Trabajando con referencias
 ## Atributos y métodos estáticos
 
-
-Uso de clases en atributos, paso de parámetros, arrays, etc.
