@@ -484,7 +484,7 @@ class Cuenta
         {
             get { return saldo; }
             set { 
-                if(value > saldo)
+                if(value > 0)
                 {
                     saldo = value;
                 }
@@ -521,7 +521,7 @@ class Cuenta
     {
         get { return saldo; }
         set { 
-            if(value > saldo)
+            if(value > 0)
             {
                 saldo = value;
             }
@@ -593,11 +593,11 @@ Cuenta c2 = new Cuenta(750, "Laura Marín", "ES12 1234 1234 12 123456789");
 La propiedad _comision_ es compartida entre todas las instancias de la clase, por lo que al hacer _Cuenta.Comision = 0.5f;_ todas las cuentas tendrán una comisión de 50 céntimos.
 
 <div style="text-align: center">
-<img src="./img/static1.png" alt="Servidor y cliente web" min-width=200px width="60%">
+<img src="./img/static1.png" alt="Servidor y cliente web" min-width=200px width="50%">
 </div>
 
 
-Un miembro estático puede ser accedido desde cualquier método aunque éste no sea estático. Por ejemplo, el método _AplicarComision_ modifica la propiedad _Saldo_ que no es estático.
+Un miembro estático puede ser accedido desde cualquier método aunque éste no sea estático. Por ejemplo, el método _AplicarComision_ que se muestra a continuación no es estático y hace uso de la propiedad estática _Comision_.
 
 ```csharp
 class Cuenta
@@ -605,23 +605,18 @@ class Cuenta
     ...
     public void AplicarComision()
     {
-        Saldo -= comision;
+        Saldo -= Comision;
     }
     ...
 }
 ```
 
-
-
+También podemos tener métodos estáticos como el que se muestra a continuación:
 
 ```csharp
 class Cuenta
 {
     ...
-    public void AplicarComision()
-    {
-        Saldo -= comision;
-    }
 
     public static void DuplicarComision()
     {
@@ -630,6 +625,28 @@ class Cuenta
     ...
 }
 ```
+Los métodos estáticos solo pueden acceder o llamar a otros miembros que también sean estáticos.
 
-También podemos tener métodos estáticos, que son aquellos que no requieren de ningún objeto para ejecutarse y, por tanto, no pueden utilizar ningún atributo que no sea estático. En el caso de que un método estático intente utilizar un atributo no estático se producirá un error.
+A continuación, se muestra un ejemplo de uso de los diferentes métodos y propiedades estáticas.
+
+```csharp
+static void Main(string[] args)
+{
+    Cuenta.Comision = 0.5f;
+    Cuenta c1 = new Cuenta(500, "Juan García", "ES12 1234 1234 12 123456789");
+    c1.AplicarComision(); // Se aplica una comisión de 0,5€. El saldo pasa a ser 499.5
+
+    Cuenta.DuplicarComision(); // La comisión de todas las cuentas pasa a ser 1€
+    Cuenta c2 = new Cuenta(750, "Laura Marín", "ES12 1234 1234 12 123456789");
+
+    c1.AplicarComision(); // Se aplica una comisión de 1€. El saldo pasa a ser 498.5
+    c2.AplicarComision(); // Se aplica una comisión de 1€. El saldo pasa a ser 749
+
+    Console.WriteLine("Cuenta 1: " + c1.Saldo);
+    Console.WriteLine("Cuenta 2: " + c2.Saldo);
+
+    Console.ReadKey();
+}
+```
+
 
