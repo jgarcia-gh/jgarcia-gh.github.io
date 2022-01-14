@@ -20,9 +20,7 @@ layout: unit
     + [Propiedades automáticas](#propiedades-automáticas)
   * [Constructores](#constructores)
     + [Constructor por defecto](#constructor-por-defecto)
-    + [base](#base)
-  * [Trabajando con referencias](#trabajando-con-referencias)
-  * [Atributos y métodos estáticos](#atributos-y-métodos-estáticos)
+  * [Miembros estáticos](#miembros-estáticos)
 
 ## Introducción
 
@@ -33,7 +31,8 @@ La POO se basa en organizar el código en módulos denominados clases en las que
 Como su nombre indica, la POO gira entorno al concepto de objeto. Así pues, un programa en ejecución consta de una serie de objetos relacionados que se comunican entre sí.
 
 ## Clases
-Las clases son una especie de plantillas que nos permiten definir cuáles son las características y comportamientos de los objetos creados a partir de ella. Podemos ver las clases como los moldes que nos permiten crear los objetos.
+
+Las clases son una especie de plantillas que nos permiten definir cuáles son las características y comportamientos de los objetos creados a partir de ellas. Podemos ver las clases como los moldes que nos permiten crear los objetos.
 
 La sintaxis de una clase es la siguiente:
 ```csharp
@@ -50,12 +49,14 @@ Dentro de la clase definiremos sus características mediante el uso de **campos 
 Para continuar con la explicación pondremos un ejemplo que desarrollaremos a lo largo de la unidad. Imaginemos que vamos a desarrollar un programa para gestionar cuentas bancarias. Podríamos definir las siguientes características y comportamientos:
 
 - Características: número de cuenta, titular y saldo.
-- Comportamientos: realizar ingreso, realizar reintegro y cambiar titular, obtener información.
+- Comportamientos: realizar ingreso, realizar reintegro, cambiar titular y obtener información.
 
-Por supuesto, se nos podrían ocurrir mil características y comportamientos mas, cuáles vamos a considerar dependerá del problema que queramos resolver.
+Por supuesto, se nos podrían ocurrir mil características y comportamientos mas, cuáles vamos a considerar en nuestro programa dependerá del problema que queramos resolver.
 
 ## Campos o atributos
-Mediante los campos o atributos representaremos las características de una clase. Las sintaxis general es la siguiente:
+
+Mediante los campos o atributos representamos las características de los objetos. La sintaxis general es la siguiente:
+
 ```csharp
     class NombreClase{
         tipo atributo1;
@@ -66,15 +67,16 @@ Mediante los campos o atributos representaremos las características de una clas
 Donde _tipo_ es el tipo del atributo y _atributo1_ su identificador. Como podemos ver, no dejan de ser declaraciones de variables.
 
 Podemos inicializar los atributos con un valor por defecto de la siguiente forma:
+
 ```csharp
     class NombreClase{
         tipo atributo1 = valor;
         ...
     }
 ```
-Los atributos son variables que están declaradas dentro de la clase, pero fuera de los métodos. Siempre las declararemos al inicio de la clase, antes de los métodos.
+Los atributos son variables que están declaradas dentro de la clase, pero fuera de los métodos. Siempre los declararemos al inicio de la clase, antes de los métodos.
 
-A continuación, se muestra la clase Cuenta con sus atributos:
+A continuación, se muestra la clase _Cuenta_ con sus atributos:
 
 ```csharp
 class Cuenta{
@@ -85,15 +87,14 @@ class Cuenta{
 ```
 
 ### Ámbito de los atributos.
+
 Como ocurre con el resto de variables, el ámbito de los atributos viene determinado por el bloque de llaves {} que lo contiene, por tanto los atributos pueden ser accedidos desde cualquier método de la clase.
 
 ## Métodos
 
-Los comportamientos de una clase se definen mediante el uso de métodos, que no son más que funciones que se implementan dentro de una clase.
+Los comportamientos de los objetos se definen mediante el uso de métodos, que no son más que funciones que se implementan dentro de una clase.
 
-A continuación, se muestra la clase Cuenta incluyendo sus métodos:
-
-realizar ingreso, realizar reintegro y cambiar titular, obtener información.
+A continuación, se muestra la clase _Cuenta_ incluyendo los métodos realizar ingreso, realizar reintegro, cambiar titular y obtener información.
 
 ```csharp
 class Cuenta
@@ -131,7 +132,7 @@ Como se puede ver en el ejemplo anterior, los atributos son variables accesibles
 
 ### Ocultación de atributos
 
-Como hemos visto hasta ahora, no podemos declarar dos variables con el mismo identificador si se encuentran en el mismo ámbito o en ámbitos anidados.
+Hasta ahora hemos visto que no podemos declarar dos variables con el mismo identificador si se encuentran en el mismo ámbito o en ámbitos anidados.
 
 ```csharp
 int n = int.Parse(Console.ReadLine());
@@ -147,7 +148,7 @@ public void GenerarNumero(int n)
 }
 ```
 
-Sin embargo existe una excepción: dentro de un método podemos declarar una variable con el mismo identificador que un atributo de la clase.
+Sin embargo, existe una excepción: dentro de un método podemos declarar una variable con el mismo identificador que un atributo de la clase.
 
 ```csharp
 class Articulo
@@ -161,13 +162,13 @@ class Articulo
     }
 }
 ```
-En el ejemplo anterior, dentro del método _MostrarNombre_ ¿A qué variable se hace referencia cuando se utiliza la variable _nombre_?¿A la variable local, esto es, el parámetro del método o al atributo de la clase?.
+En el ejemplo anterior, dentro del método _MostrarNombre_ ¿A qué variable se hace referencia cuando se utiliza la variable _nombre_?¿A la variable local, esto es, al parámetro del método o al atributo de la clase?.
 
 Ante esta situación las variables locales tienen prioridad sobre el atributo. Se dice que la variable local **oculta al atributo**.
 
 Por tanto, si llamamos al método _MostrarNombre_ se mostrará por pantalla _"Juanito"_ y el atributo _nombre_ seguirá valiendo _"Pepito"_.
 
-Ante esta situación, ¿Cómo podemos hacer referencia al atributo en vez de la variable local? Para ello disponemos de la palabra reservada _this_ que permite hacer referencia un atributo de la clase incluso cuando ha sido ocultado por una variable local.
+Ante esta situación, ¿Cómo podemos hacer referencia al atributo en vez de la variable local? Para ello disponemos de la palabra reservada _this_ que permite hacer referencia a un atributo de la clase incluso cuando ha sido ocultado por una variable local.
 
 A continuación, se muestra un ejemplo de uso de la palabra reservada _this_.
 
@@ -197,11 +198,11 @@ Al crear una aplicación de consola siempre se crea un archivo _Program.cs_ que 
 
 ## Objetos
 
-Hasta ahora hemos visto cómo crear las "plantillas" o "moldes" que nos van a permitir crear objetos. Hemos definido qué tiene una cuenta bancaria, pero aún no hemos creado ninguna.
+Hasta ahora hemos visto cómo crear las "plantillas" o "moldes" que nos van a permitir crear objetos. En  una clase hemos definido las características y comportamientos de una cuenta bancaria, pero aún no hemos creado ninguna.
 
 ### Creación de una instancia
 
-Los elementos creados a partir de una clase se llaman **instancias** u **objetos**. Todos los objetos creados a partir de una clase tienen los mismos atributos y métodos, pero los atributos de cada objeto tiene sus propios valores.
+Los elementos creados a partir de una clase se llaman **instancias** u **objetos**. Todos los objetos creados a partir de una clase tienen los mismos atributos y métodos, pero los atributos de cada objeto tienen sus propios valores.
 
 Para **crear una instancia** de una clase en primer lugar es necesario declarar una variable. En el tipo de la variable escribiremos el nombre de la clase.
 
@@ -219,7 +220,7 @@ Por supuesto, podríamos haber declarado e inicializado la variable en una únic
 NombreClase nombreVariable = new NombreClase();
 ```
 
-A partir de ahora, si se cumplen ciertas condiciones que veremos más adelante, podremos acceder a los atributos y métodos de la instancia mediante el uso de un punto tras el nombre de la variable.
+A partir de ahora, si se cumplen ciertas condiciones que veremos más adelante, podremos acceder a los atributos y métodos de la instancia mediante el uso de un punto tras el nombre de la variable como se muestra a continuación:
 
 ```csharp
 NombreClase nombreVariable = new NombreClase();
@@ -244,7 +245,7 @@ static void Main(string[] args)
     Console.WriteLine(c2.ObtenerInformacion());
 }
 ```
-En el código anterior se crean dos instancias de la clase _Cuenta_. El titular de la primera cuenta pasa a ser Andresito quien ingresa 100€. La segunda cuenta pasa a ser de Laurita, quien hace un ingreso de 200€. Finalmente se muestra la información de la segunda cuenta por pantalla.
+En el código anterior se crean dos instancias de la clase _Cuenta_. El titular de la primera cuenta pasa a ser Andresito quien ingresa 100€. La segunda cuenta pasa a ser de Laurita, quien hace un ingreso de 200€.Finalmente se muestra la información de la segunda cuenta por pantalla. Todas estas operaciones se realizan mediante llamadas a los métodos de la instancia.
 
 Si intentamos acceder a los atributos del mismo modo que hemos hecho con los métodos, veremos que se produce un error que nos indica que el atributo _saldo_ es inaccesible.
 
@@ -252,11 +253,11 @@ Si intentamos acceder a los atributos del mismo modo que hemos hecho con los mé
 static void Main(string[] args)
 {
     Cuenta c1 = new Cuenta();
-    c1.saldo = 500; // Error
-    Console.WriteLine(c1.saldo); // Error
+    c1.saldo = 500; // Error, el campo saldo no es accesible
+    Console.WriteLine(c1.saldo); // Error, el campo saldo no es accesible
 }
 ```
-Esto se debe a que no siempre podemos acceder a los campos y métodos de una instancia desde otra clase. Que podamos hacerlo depende del modificador de accesibilidad utilizado a la hora de declarar los miembros.
+Esto se debe a que no siempre podemos acceder a los campos y métodos de una instancia desde otra clase. Que podamos hacerlo o no depende del modificador de accesibilidad utilizado a la hora de declarar los miembros.
 
 ## Modificadores de accesibilidad
 
@@ -269,7 +270,7 @@ Los modificadores de accesibilidad que podemos aplicar a una clase en C# son los
 - _public_: La clase es accesible desde cualquier clase del propio proyecto o de otro proyecto.
 - _internal_: La clase es accesible desde cualquier otra clase del propio proyecto pero no desde proyectos externos.
 
-Que sea accesible una clase significa que puede ser instanciada.
+Que una clase sea accesible significa que puede ser instanciada.
 
 El modificador de accesibilidad se especifica antes de la palabra reservada _class_.
 
@@ -278,7 +279,6 @@ accesibilidad class NombreClase {
     ...
 }
 ```
-
 Por ejemplo:
 
 ```csharp
@@ -286,7 +286,7 @@ public class Empleado {
     ...
 }
 ```
-Si no indicamos el modificador  de accesibilidad de una clase por defecto será _internal_.
+Si no indicamos el modificador de accesibilidad por defecto será _internal_.
 
 ### Modificadores de acceso para miembros
 
@@ -320,11 +320,11 @@ public int Sumar(int num1, int num2){
     ...
 }
 ```
-Que sea accesible un método significa que puede ser llamado. Que sea accesible un campo significa que se puede obtener o asignar un valor.
+Que un método sea accesible significa que puede ser llamado. Que un campo sea accesible significa que se puede obtener o asignar un valor.
 
 Si no indicamos el modificador  de accesibilidad de un miembro por defecto será _private_.
 
-Si observamos el código de la clase _Cuenta_. Vemos que los atributos _numeroCuenta_, _titular_ y _saldo_ no tienen modificador de acceso, por lo que por defecto su accesibilidad es _private_.
+Si observamos el código de la clase _Cuenta_. Vemos que los atributos _numeroCuenta_, _titular_ y _saldo_ no tienen modificador de accesibilidad, por lo que por defecto su accesibilidad es _private_.
 
 
 ```csharp
@@ -347,7 +347,7 @@ static void Main(string[] args)
     Console.WriteLine(c1.saldo); // Error, el campo saldo no es accesible
 }
 ```
-Este error se soluciona si añadimos el modificador de accesibilidad _public_ al campo _saldo_:
+No podemos acceder al campo _saldo_ desde otra clase porque es privado. Este error se soluciona si añadimos el modificador de accesibilidad _public_ al campo _saldo_:
 
 ```csharp
 class Cuenta
@@ -358,7 +358,7 @@ class Cuenta
     ...
 }
 ```
-Podríamos pensar que para evitar problemas lo mejor sería que todos los campos fueran públicos. No obstante **no es una práctica recomendada**. ¿Por qué? Porque un campo público puede ser modificado desde cualquier lugar del programa, con el consiguiente inconveniente: alguien podría asignar un valor inválido.
+Podríamos pensar que para evitar problemas lo mejor sería que todos los campos fueran públicos. No obstante **no es una práctica recomendada**. ¿Por qué? Porque un campo público puede ser modificado desde cualquier lugar del programa con el inconveniente de que alguien podría asignar un valor inválido.
 
 Imaginemos que no queremos que el saldo de las cuentas pueda ser inferior a 0. Si el campo es público nada impide que otro programador haga:
 
@@ -397,7 +397,7 @@ public class Cuenta
     ...
 }
 ```
-Para obtener el valor del atributo _saldo_ se hará uso del método _getSaldo_ y para modificarlo el método _setSaldo_. Como vemos en el método _setSaldo_ esta estrategia nos permite escribir código para, entre otras cosas, controlar que el valor que se vaya asignar sea válido. A continuación, se muestra el uso de estos métodos:
+Para obtener el valor del atributo _saldo_ se hace uso del método _getSaldo_ y para modificarlo el método _setSaldo_. Hacer uso de métodos nos permite escribir código para, entre otras cosas, controlar que el valor que se vaya asignar a un campo sea válido. A continuación, se muestra el uso de estos métodos:
 
 ```java
 public static void main(String[] args)
@@ -411,7 +411,8 @@ public static void main(String[] args)
 ```
 
 ## Propiedades
-C# introduce el concepto de propiedades que, como veremos, se basa también en el concepto de los _getters_ y _setters_ pero con una sintaxis diferente.
+
+C# introduce el concepto de propiedades que, como veremos, es un concepto similar al de los _getters_ y _setters_ de Java pero con una sintaxis diferente.
 
 Una propiedad C# se define de la siguiente forma:
 
@@ -429,10 +430,10 @@ public float Saldo
 ```
 Donde:
 -	_saldo_ es un campo. Los campos siempre serán privados.
--	_Saldo_ es una **propiedad**. Las propiedades siempre serán públicas.
--	Entre llaves {} especificamos el _getter_ y _setter_ de la propiedad. Como vemos no se escriben los paréntesis como se haría en un métodonormal.
--	La palabra clave _value_ representa el valor que recibe como entrada el setter y es del mismo tipo que el indicado en la propiedad.
--	Tanto en el _setter_ como en el _getter_ podemos programar la lógica necesaria para tratar los datos, por ejemplo, que la edad sea superior a 0.
+-	_Saldo_ es una **propiedad** que permite obtener y asignar el campo _saldo_.
+-	Entre llaves {} especificamos el _getter_ y _setter_ de la propiedad. Como vemos no se escriben los paréntesis como se haría en un método normal.
+-	La palabra clave _value_ representa el valor que recibe como entrada el _setter_ y es del mismo tipo que el indicado en la propiedad.
+-	Tanto en el _setter_ como en el _getter_ podemos programar la lógica necesaria para tratar los datos, por ejemplo, comprobando que el nuevo saldo sea superior a 0.
 
 La propiedad _Saldo_ se utilizaría del siguiente modo:
 
@@ -457,18 +458,18 @@ public string Titular { get; set; }
 
 En este caso no es necesario especificar el campo privado _titular_ como sí hemos hecho a la hora de implementar la propiedad _Saldo_.
 
-> A la hora de implementar nuestras clases siempre utilizaremos propiedades y nunca campos o atrobitos privados.
+> A la hora de implementar nuestras clases siempre utilizaremos propiedades y nunca campos o atributos privados.
 
 ## Constructores
 
-Cuando se instancia una clase, los campos a los que no se les asigna un valor en su declaración se inicializan con un valor por defecto. En el caso de los tipos numéricos se inicializan con un 0, las referencias se inicializan a _null_ y los _booleanos_ con _false_. Por ejemplo, al instanciar la clase _Cuenta_ su saldo inicial siempre será 0.
+Cuando se instancia una clase los campos a los que no se les asigna un valor en su declaración se inicializan con un valor por defecto. En el caso de los tipos numéricos se inicializan con un 0, las referencias se inicializan a _null_ y los _booleanos_ con _false_. Por ejemplo, al instanciar la clase _Cuenta_ su saldo inicial siempre será 0.
 
 Los constructores son métodos que permiten inicializar los objetos que se instancian.
 
 Un constructor es un método especial que:
--	Debe tener el mismo nombre que la clase.
+-	Tiene el mismo nombre que la clase.
 -	Se define sin tipo devuelto (ni siquiera _void_).
--	Se ejecuta inmediatamente al instanciar una clase con el operador _new_.
+-	Se ejecuta una única vez en el momento que se instancia la clase con el operador _new_.
 
 Al constructor, como a cualquier otro método, se le pueden pasar parámetros.
 
@@ -553,11 +554,11 @@ A partir de ahora podríamos instanciar la clase _Cuenta_ haciendo uso de cualqu
 
 ### Constructor por defecto
 
-Si no definimos ningún constructo, por defecto C# incluirá un constructor vacío que no recibe ningún parámetro ni tiene código en su cuerpo. Por eso podemos instanciar clases aunque no hayamos implementado ningún constructor.
+Si no definimos ningún constructor, por defecto C# incluirá un constructor vacío que no recibe ningún parámetro ni tiene código en su cuerpo. Por eso podemos instanciar clases aunque no hayamos implementado ningún constructor.
 
 ## Miembros estáticos
 
-Un miembro estático (ya sea un campo, propiedad o método) es aquel del que no existe una copia en cada objeto. Todos los objetos de una misma clase comparten su valor. Un miembro estático se declara mediante la palabra reservada _static_.
+Un miembro estático (ya sea un campo, propiedad o método) es aquel del que no existe una copia en cada objeto. Se trata de un miembro compartido por todas las instancias de la clase. Un miembro estático se declara mediante la palabra reservada _static_.
 
 Imaginemos que queremos añadir una comisión mensual a nuestra clase _Cuenta_ y que queremos que dicha comisión sea la misma para todas las cuentas. En ese caso añadiremos una propiedad estática como se muestra a continuación:
 
@@ -583,19 +584,18 @@ class Cuenta
 }
 ```
 
- Para acceder a dicha propiedad no es necesario instanciar la clase, si no que podemos acceder a ella simplemente escribiendo el nombre de la clase seguida de un punto y el nombre del miembro estático:
+ Para acceder a dicha propiedad no es necesario instanciar la clase sino que podemos acceder a ella simplemente escribiendo el nombre de la clase seguida de un punto y el nombre del miembro estático:
 
 ```csharp
 Cuenta.Comision = 0.5f;
 Cuenta c1 = new Cuenta(500, "Juan García", "ES12 1234 1234 12 123456789");
 Cuenta c2 = new Cuenta(750, "Laura Marín", "ES12 1234 1234 12 123456789");
  ```           
-La propiedad _comision_ es compartida entre todas las instancias de la clase, por lo que al hacer _Cuenta.Comision = 0.5f;_ todas las cuentas tendrán una comisión de 50 céntimos.
+La propiedad _Comision_ es compartida entre todas las instancias de la clase, por lo que al hacer _Cuenta.Comision = 0.5f;_ todas las cuentas tendrán una comisión de 50 céntimos.
 
 <div style="text-align: center">
 <img src="./img/static1.png" alt="Servidor y cliente web" min-width=200px width="50%">
 </div>
-
 
 Un miembro estático puede ser accedido desde cualquier método aunque éste no sea estático. Por ejemplo, el método _AplicarComision_ que se muestra a continuación no es estático y hace uso de la propiedad estática _Comision_.
 
