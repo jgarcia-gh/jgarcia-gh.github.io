@@ -593,7 +593,7 @@ Cuenta c2 = new Cuenta(750, "Laura Marín", "ES12 1234 1234 12 123456789");
 La propiedad _comision_ es compartida entre todas las instancias de la clase, por lo que al hacer _Cuenta.Comision = 0.5f;_ todas las cuentas tendrán una comisión de 50 céntimos.
 
 <div style="text-align: center">
-<img src="./img/static1.png" alt="Servidor y cliente web" min-width=200px width="70%">
+<img src="./img/static1.png" alt="Servidor y cliente web" min-width=200px width="60%">
 </div>
 
 
