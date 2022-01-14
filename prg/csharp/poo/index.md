@@ -555,7 +555,81 @@ A partir de ahora podríamos instanciar la clase _Cuenta_ haciendo uso de cualqu
 
 Si no definimos ningún constructo, por defecto C# incluirá un constructor vacío que no recibe ningún parámetro ni tiene código en su cuerpo. Por eso podemos instanciar clases aunque no hayamos implementado ningún constructor.
 
-### base
-## Trabajando con referencias
-## Atributos y métodos estáticos
+## Miembros estáticos
+
+Un miembro estático (ya sea un campo, propiedad o método) es aquel del que no existe una copia en cada objeto. Todos los objetos de una misma clase comparten su valor. Un miembro estático se declara mediante la palabra reservada _static_.
+
+Imaginemos que queremos añadir una comisión mensual a nuestra clase _Cuenta_ y que queremos que dicha comisión sea la misma para todas las cuentas. En ese caso añadiremos una propiedad estática como se muestra a continuación:
+
+```csharp
+class Cuenta
+{
+    private static float comision;
+    public static float Comision
+    {
+        get
+        {
+            return comision;
+        }
+        set
+        {
+            if (value > 0)
+            {
+                comision = value;
+            }
+        }
+    }
+    ...
+}
+```
+
+ Para acceder a dicha propiedad no es necesario instanciar la clase, si no que podemos acceder a ella simplemente escribiendo el nombre de la clase seguida de un punto y el nombre del miembro estático:
+
+```csharp
+Cuenta.Comision = 0.5f;
+Cuenta c1 = new Cuenta(500, "Juan García", "ES12 1234 1234 12 123456789");
+Cuenta c2 = new Cuenta(750, "Laura Marín", "ES12 1234 1234 12 123456789");
+ ```           
+La propiedad _comision_ es compartida entre todas las instancias de la clase, por lo que al hacer _Cuenta.Comision = 0.5f;_ todas las cuentas tendrán una comisión de 50 céntimos.
+
+<div style="text-align: center">
+<img src="./img/static1.png" alt="Servidor y cliente web" min-width=200px width="70%">
+</div>
+
+
+Un miembro estático puede ser accedido desde cualquier método aunque éste no sea estático. Por ejemplo, el método _AplicarComision_ modifica la propiedad _Saldo_ que no es estático.
+
+```csharp
+class Cuenta
+{
+    ...
+    public void AplicarComision()
+    {
+        Saldo -= comision;
+    }
+    ...
+}
+```
+
+
+
+
+```csharp
+class Cuenta
+{
+    ...
+    public void AplicarComision()
+    {
+        Saldo -= comision;
+    }
+
+    public static void DuplicarComision()
+    {
+        Comision *= 2;
+    }
+    ...
+}
+```
+
+También podemos tener métodos estáticos, que son aquellos que no requieren de ningún objeto para ejecutarse y, por tanto, no pueden utilizar ningún atributo que no sea estático. En el caso de que un método estático intente utilizar un atributo no estático se producirá un error.
 
