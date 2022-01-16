@@ -59,138 +59,73 @@ Mediante los campos o atributos representamos las características de los objeto
 
 ```csharp
     class NombreClase{
-        tipo atributo1;
-        tipo atributo2;
+        accesibilidad tipo atributo1;
+        accesibilidad tipo atributo2;
         ...
     }
 ```
-Donde _tipo_ es el tipo del atributo y _atributo1_ su identificador. Como podemos ver, no dejan de ser declaraciones de variables.
+Donde:
+- _accesibilidad_ indica el nivel de accesibilidad del atributo. Los niveles de accesibilidad los se explican en los siguientes apartados, de momento será _public_.
+- _tipo_ es el tipo del atributo (_int_, _string_, etc.)
+- _atributo1_ su identificador.
 
-Podemos inicializar los atributos con un valor por defecto de la siguiente forma:
+Podemos inicializar los campos con un valor por defecto de la siguiente forma:
 
 ```csharp
     class NombreClase{
-        tipo atributo1 = valor;
+        accesibilidad tipo atributo1 = valor;
         ...
     }
 ```
-Los atributos son variables que están declaradas dentro de la clase, pero fuera de los métodos. Siempre los declararemos al inicio de la clase, antes de los métodos.
+Los campos son variables que están declaradas dentro de la clase, pero fuera de los métodos. Siempre los declararemos al inicio de la clase, antes de los métodos.
 
-A continuación, se muestra la clase _Cuenta_ con sus atributos:
+A continuación, se muestra la clase _Cuenta_ con los campos _numeroCuenta_, _titular_ y _saldo_:
 
 ```csharp
 class Cuenta{
-    string numeroCuenta;
-    string titular;
-    float saldo;
+    public string numeroCuenta;
+    public string titular;
+    public float saldo;
 }
 ```
 
-### Ámbito de los atributos.
+### Ámbito de los campos.
 
-Como ocurre con el resto de variables, el ámbito de los atributos viene determinado por el bloque de llaves {} que lo contiene, por tanto los atributos pueden ser accedidos desde cualquier método de la clase.
+Como ocurre con el resto de variables, el ámbito de los campos viene determinado por el bloque de llaves {} que lo contiene, por tanto los atributos pueden ser accedidos desde cualquier método de la clase.
 
 ## Métodos
 
 Los comportamientos de los objetos se definen mediante el uso de métodos, que no son más que funciones que se implementan dentro de una clase.
 
-A continuación, se muestra la clase _Cuenta_ incluyendo los métodos realizar ingreso, realizar reintegro, cambiar titular y obtener información.
+A continuación, se muestra la clase _Cuenta_ incluyendo los métodos ingresar y reintegrar.
 
 ```csharp
 class Cuenta
 {
-    string numeroCuenta;
-    string titular;
-    float saldo;
+    public string numeroCuenta;
+    public string titular;
+    public float saldo;
 
     public void Ingresar(float cantidad)
     {
-        saldo = saldo + cantidad;
+        if(cantidad > 0) { // Comprobamos que la cantidad a ingresar es mayor que 0
+            saldo = saldo + cantidad;
+        }
     }
 
     public void Reintegrar(float cantidad)
     {
-        saldo = saldo - cantidad;
-    }
-
-    public void CambiarTitular (string nuevoTitular)
-    {
-        titular = nuevoTitular;
-    }
-
-    public string ObtenerInformacion()
-    {
-       return numeroCuenta + " " + titular + " " + saldo + "€";
+        if( saldo - cantidad >= 0){ // Comprobamos que el nuevo saldo no pase a ser negativo
+            saldo = saldo - cantidad;
+        }
     }
 }
 ```
-Como se puede ver en el ejemplo anterior, los atributos son variables accesibles desde cualquier método.
+Como se puede ver en el ejemplo anterior, los campos son variables accesibles desde cualquier método.
 
-> Al conjunto de atributos y métodos de una clase se le llama **miembros** de la clase.
+> Al conjunto de campos y métodos de una clase se le llama **miembros** de la clase.
 
 > Las variables declaradas dentro de un método reciben el nombre de **variables locales**.
-
-### Ocultación de atributos
-
-Hasta ahora hemos visto que no podemos declarar dos variables con el mismo identificador si se encuentran en el mismo ámbito o en ámbitos anidados.
-
-```csharp
-int n = int.Parse(Console.ReadLine());
-if(n > 10)
-{
-    int n = 10; // Error: la variable n ya se ha declarado
-}
-```
-```csharp
-public void GenerarNumero(int n)
-{
-    int n = int.Parse(Console.ReadLine()); // Error: la variable n ya se ha declarado
-}
-```
-
-Sin embargo, existe una excepción: dentro de un método podemos declarar una variable con el mismo identificador que un atributo de la clase.
-
-```csharp
-class Articulo
-{
-    string nombre = "Pepito";
-
-    public void MostrarNombre(string nombre) // No se produce un error
-    {
-        nombre = "Juanito";
-        Console.WriteLine(nombre);
-    }
-}
-```
-En el ejemplo anterior, dentro del método _MostrarNombre_ ¿A qué variable se hace referencia cuando se utiliza la variable _nombre_?¿A la variable local, esto es, al parámetro del método o al atributo de la clase?.
-
-Ante esta situación las variables locales tienen prioridad sobre el atributo. Se dice que la variable local **oculta al atributo**.
-
-Por tanto, si llamamos al método _MostrarNombre_ se mostrará por pantalla _"Juanito"_ y el atributo _nombre_ seguirá valiendo _"Pepito"_.
-
-Ante esta situación, ¿Cómo podemos hacer referencia al atributo en vez de la variable local? Para ello disponemos de la palabra reservada _this_ que permite hacer referencia a un atributo de la clase incluso cuando ha sido ocultado por una variable local.
-
-A continuación, se muestra un ejemplo de uso de la palabra reservada _this_.
-
-```csharp
-class Cuenta
-{
-    string numeroCuenta;
-    string titular;
-    float saldo;
-
-    ...
-
-    public void CambiarTitular (string titular)
-    {
-        this.titular = titular;
-    }
-
-    ...    
-
-}
-```
-El ejemplo anterior _this.titular_ hace referencia al atributo _titular_, mientras que _titular_ hace referencia al parámetro del método. De esta forma es posible diferenciar a qué variable estamos haciendo referencia.
 
 ### La clase Program
 
@@ -236,28 +171,35 @@ static void Main(string[] args)
     Cuenta c1 = new Cuenta();
     Cuenta c2 = new Cuenta();
 
-    c1.CambiarTitular("Andresito");
+    c1.titular = "Andresito";
     c1.Ingresar(100);
 
-    c2.CambiarTitular("Laurita");
+    c2.titular = "Laurita";
     c2.Ingresar(200);
+    c2.Reintegro(300);
 
-    Console.WriteLine(c2.ObtenerInformacion());
+    Console.WriteLine(c1.titular + " " + c1.saldo);
+    Console.WriteLine(c2.titular + " " + c2.saldo);
 }
 ```
-En el código anterior se crean dos instancias de la clase _Cuenta_. El titular de la primera cuenta pasa a ser Andresito quien ingresa 100€. La segunda cuenta pasa a ser de Laurita, quien hace un ingreso de 200€.Finalmente se muestra la información de la segunda cuenta por pantalla. Todas estas operaciones se realizan mediante llamadas a los métodos de la instancia.
+En el código anterior se crean dos instancias de la clase _Cuenta_. El titular de la primera cuenta pasa a ser Andresito quien ingresa 100€. La segunda cuenta pasa a ser de Laurita, quien hace un ingreso de 200€. El reintegro no se puede realizar ya que no hay saldo suficiente. Finalmente se muestra el titular y el saldo de ambas cuentas.
 
-Si intentamos acceder a los atributos del mismo modo que hemos hecho con los métodos, veremos que se produce un error que nos indica que el atributo _saldo_ es inaccesible.
+<div style="display: flex;">
+<div style="flex: 10px;">
+ <img src="./img/ejercicio.png" alt="Ejercicio">
+</div>
+<div  style="flex: 80%; padding-left: 10px;">
+<p>
+<b>Ejercicio 1</b></br>
+Queremos desarrollar un programa para gestionar diferentes aspectos de las discotecas de Alicante. De una discoteca se necesita conocer su nombre, superficie en metros cuadrados, precio de la entrada y número de entradas vendidas.
 
-```csharp
-static void Main(string[] args)
-{
-    Cuenta c1 = new Cuenta();
-    c1.saldo = 500; // Error, el campo saldo no es accesible
-    Console.WriteLine(c1.saldo); // Error, el campo saldo no es accesible
-}
-```
-Esto se debe a que no siempre podemos acceder a los campos y métodos de una instancia desde otra clase. Que podamos hacerlo o no depende del modificador de accesibilidad utilizado a la hora de declarar los miembros.
+A partir de la superficie se debe poder obtener el aforo de la sala teniendo en cuenta que por cada persona debe haber al menos un espacio de 0,5 m2. Además se quiere poder obtener el total de ingresos de la noche multiplicando el número de entradas vendidas por precio de la entrada.
+
+Crea las clases que consideres necesarias para resolver el problema planteado y comprueba que funciona(n) correctamente.
+</p>
+
+</div>
+</div>
 
 ## Modificadores de accesibilidad
 
@@ -297,7 +239,7 @@ Los modificadores de acceso disponibles en C# son los siguientes:
 - _protected_: El campo o método es accesible desde la propia clase y cualquier otra clase derivada.
 - _internal_: El campo o método es accesible desde cualquier clase del propio proyecto pero no desde proyectos externos.
 
-En el caso de los campos el modificador de accesibilidad se especifica antes del tipo.
+Como hemos visto anteriormente en los campos el modificador de accesibilidad se especifica antes del tipo.
 
 ```csharp
 accesibilidad tipo identificadorAtributo;
@@ -322,42 +264,39 @@ public int Sumar(int num1, int num2){
 ```
 Que un método sea accesible significa que puede ser llamado. Que un campo sea accesible significa que se puede obtener o asignar un valor.
 
-Si no indicamos el modificador  de accesibilidad de un miembro por defecto será _private_.
-
-Si observamos el código de la clase _Cuenta_. Vemos que los atributos _numeroCuenta_, _titular_ y _saldo_ no tienen modificador de accesibilidad, por lo que por defecto su accesibilidad es _private_.
-
+Si no indicamos el modificador  de accesibilidad de un miembro por defecto será _private_. Podemos comprobarlo eliminando el modificador _public_ de los atributos _titular_ y _saldo_ de la clase _Cuenta_.
 
 ```csharp
 class Cuenta
 {
-    string numeroCuenta;
-    string titular;
-    float saldo;   
+    public string numeroCuenta;
+    string titular; // por defecto es private
+    float saldo; // por defecto es private
     ...
 }
 ```
 
-Éste es el motivo por el que el siguiente código producía un error:
+Al hacer el cambio anterior se producirán los siguientes errores:
+
 
 ```csharp
 static void Main(string[] args)
 {
     Cuenta c1 = new Cuenta();
-    c1.saldo = 500; // Error, el campo saldo no es accesible
-    Console.WriteLine(c1.saldo); // Error, el campo saldo no es accesible
-}
-```
-No podemos acceder al campo _saldo_ desde otra clase porque es privado. Este error se soluciona si añadimos el modificador de accesibilidad _public_ al campo _saldo_:
+    Cuenta c2 = new Cuenta();
 
-```csharp
-class Cuenta
-{
-    string numeroCuenta;
-    string titular;
-    public float saldo;
-    ...
+    c1.titular = "Andresito"; // Error, el campo titular no es accesible
+    c1.Ingresar(100);
+
+    c2.titular = "Laurita"; // Error, el campo titular no es accesible
+    c2.Ingresar(200);
+    c2.Reintegro(300);
+
+    Console.WriteLine(c1.titular + " " + c1.saldo); // Error, el campo saldo no es accesible
+    Console.WriteLine(c2.titular + " " + c2.saldo); // Error, el campo saldo no es accesible
 }
 ```
+
 Podríamos pensar que para evitar problemas lo mejor sería que todos los campos fueran públicos. No obstante **no es una práctica recomendada**. ¿Por qué? Porque un campo público puede ser modificado desde cualquier lugar del programa con el inconveniente de que alguien podría asignar un valor inválido.
 
 Imaginemos que no queremos que el saldo de las cuentas pueda ser inferior a 0. Si el campo es público nada impide que otro programador haga:
@@ -460,6 +399,71 @@ En este caso no es necesario especificar el campo privado _titular_ como sí hem
 
 > A la hora de implementar nuestras clases siempre utilizaremos propiedades y nunca campos o atributos privados.
 
+### Ocultación de atributos
+
+Hasta ahora hemos visto que no podemos declarar dos variables con el mismo identificador si se encuentran en el mismo ámbito o en ámbitos anidados.
+
+```csharp
+int n = int.Parse(Console.ReadLine());
+if(n > 10)
+{
+    int n = 10; // Error: la variable n ya se ha declarado
+}
+```
+```csharp
+public void GenerarNumero(int n)
+{
+    int n = int.Parse(Console.ReadLine()); // Error: la variable n ya se ha declarado
+}
+```
+
+Sin embargo, existe una excepción: dentro de un método podemos declarar una variable con el mismo identificador que un atributo de la clase.
+
+```csharp
+class Articulo
+{
+    string nombre = "Pepito";
+
+    public void MostrarNombre(string nombre) // No se produce un error
+    {
+        nombre = "Juanito";
+        Console.WriteLine(nombre);
+    }
+}
+```
+En el ejemplo anterior, dentro del método _MostrarNombre_ ¿A qué variable se hace referencia cuando se utiliza la variable _nombre_?¿A la variable local, esto es, al parámetro del método o al atributo de la clase?.
+
+Ante esta situación las variables locales tienen prioridad sobre el atributo. Se dice que la variable local **oculta al atributo**.
+
+Por tanto, si llamamos al método _MostrarNombre_ se mostrará por pantalla _"Juanito"_ y el atributo _nombre_ seguirá valiendo _"Pepito"_.
+
+Ante esta situación, ¿Cómo podemos hacer referencia al atributo en vez de la variable local? Para ello disponemos de la palabra reservada _this_ que permite hacer referencia a un atributo de la clase incluso cuando ha sido ocultado por una variable local.
+
+A continuación, se muestra un ejemplo de uso de la palabra reservada _this_.
+
+```csharp
+class Cuenta
+{
+    string numeroCuenta;
+    string titular;
+    float saldo;
+
+    ...
+
+    public void CambiarTitular (string titular)
+    {
+        this.titular = titular;
+    }
+
+    ...    
+
+}
+```
+El ejemplo anterior _this.titular_ hace referencia al atributo _titular_, mientras que _titular_ hace referencia al parámetro del método. De esta forma es posible diferenciar a qué variable estamos haciendo referencia.
+
+// Ejercicio 2
+
+
 ## Constructores
 
 Cuando se instancia una clase los campos a los que no se les asigna un valor en su declaración se inicializan con un valor por defecto. En el caso de los tipos numéricos se inicializan con un 0, las referencias se inicializan a _null_ y los _booleanos_ con _false_. Por ejemplo, al instanciar la clase _Cuenta_ su saldo inicial siempre será 0.
@@ -556,6 +560,9 @@ A partir de ahora podríamos instanciar la clase _Cuenta_ haciendo uso de cualqu
 
 Si no definimos ningún constructor, por defecto C# incluirá un constructor vacío que no recibe ningún parámetro ni tiene código en su cuerpo. Por eso podemos instanciar clases aunque no hayamos implementado ningún constructor.
 
+
+// Ejercicio 3
+
 ## Miembros estáticos
 
 Un miembro estático (ya sea un campo, propiedad o método) es aquel del que no existe una copia en cada objeto. Se trata de un miembro compartido por todas las instancias de la clase. Un miembro estático se declara mediante la palabra reservada _static_.
@@ -649,4 +656,5 @@ static void Main(string[] args)
 }
 ```
 
+// Ejercicio 4
 
