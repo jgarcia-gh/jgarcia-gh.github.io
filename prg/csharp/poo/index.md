@@ -468,7 +468,7 @@ El ejemplo anterior _this.titular_ hace referencia al atributo _titular_, mientr
 </div>
 <div  style="flex: 80%; padding-left: 1em;">
 <p>
-<b>Ejercicio 1 - Parte B</b><br>
+<b>Ejercicio 2 - Parte B</b><br>
 Modifica el código desarrollado en la Parte A para que haga uso de propiedades. El código debe validar que el precio de la entrada y la superficie de la discoteca no sea inferior a 0. A la hora de obtener los ingresos se debería comprobar que el número de entradas vendidas no es superior al aforo permitido, si lo es se debería devolver la cantidad de ingresos máximos de la discoteca que permite su aforo.
 </p>
 </div>
@@ -577,7 +577,7 @@ Si no definimos ningún constructor, por defecto C# incluirá un constructor vac
 </div>
 <div  style="flex: 80%; padding-left: 1em;">
 <p>
-<b>Ejercicio 1 - Parte C</b><br>
+<b>Ejercicio 2 - Parte C</b><br>
 Modifica el ejercicio anterior para hacer uso de constructores de forma que no podamos crear ninguna discoteca sin indicar su nombre y superficie.
 </p>
 </div>
@@ -682,7 +682,7 @@ static void Main(string[] args)
 </div>
 <div  style="flex: 80%; padding-left: 1em;">
 <p>
-<b>Ejercicio 1 - Parte 4</b><br>
+<b>Ejercicio 2 - Parte 4</b><br>
 Debido al COVID se desea poder controlar el aforo de todas las discotecas y fijarlo en un 50%. Realiza las modificaciones pertinentes.
 </p>
 </div>
