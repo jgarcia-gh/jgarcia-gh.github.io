@@ -185,7 +185,7 @@ static void Main(string[] args)
 En el código anterior se crean dos instancias de la clase _Cuenta_. El titular de la primera cuenta pasa a ser Andresito quien ingresa 100€. La segunda cuenta pasa a ser de Laurita, quien hace un ingreso de 200€. El reintegro no se puede realizar ya que no hay saldo suficiente. Finalmente se muestra el titular y el saldo de ambas cuentas.
 
 <div style="display: flex;">
-<div style="flex: 10px;">
+<div style="flex;">
  <img src="./img/ejercicio.png" alt="Ejercicio">
 </div>
 <div  style="flex: 80%; padding-left: 1em;">
@@ -463,7 +463,7 @@ class Cuenta
 El ejemplo anterior _this.titular_ hace referencia al atributo _titular_, mientras que _titular_ hace referencia al parámetro del método. De esta forma es posible diferenciar a qué variable estamos haciendo referencia.
 
 <div style="display: flex;">
-<div style="flex: 10px;">
+<div style="flex;">
  <img src="./img/ejercicio.png" alt="Ejercicio">
 </div>
 <div  style="flex: 80%; padding-left: 1em;">
@@ -572,7 +572,7 @@ A partir de ahora podríamos instanciar la clase _Cuenta_ haciendo uso de cualqu
 Si no definimos ningún constructor, por defecto C# incluirá un constructor vacío que no recibe ningún parámetro ni tiene código en su cuerpo. Por eso podemos instanciar clases aunque no hayamos implementado ningún constructor.
 
 <div style="display: flex;">
-<div style="flex: 10px;">
+<div style="flex;">
  <img src="./img/ejercicio.png" alt="Ejercicio">
 </div>
 <div  style="flex: 80%; padding-left: 1em;">
@@ -677,7 +677,7 @@ static void Main(string[] args)
 ```
 
 <div style="display: flex;">
-<div style="flex: 10px;">
+<div style="flex;">
  <img src="./img/ejercicio.png" alt="Ejercicio">
 </div>
 <div  style="flex: 80%; padding-left: 1em;">
