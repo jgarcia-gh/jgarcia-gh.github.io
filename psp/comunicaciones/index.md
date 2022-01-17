@@ -27,6 +27,7 @@ layout: unit
     - [Socket](#socket)
     - [Flujo de datos](#flujo-de-datos)
     - [Conexión de múltiples clientes](#conexión-de-múltiples-clientes)
+    - [Escritura y lectura simultánea](#escritura-y-lectura-simultanea)
 - [Bibliografía](#bibliografía)
   
 ## Introducción
@@ -414,62 +415,114 @@ Hasta ahora los servidores que hemos implementado solo han permitido la conexió
 
 **Ejemplo 2**
 
-Imaginemos que queremos desarrollar el siguiente programa: Un servidor que admita la conexión de dos clientes. Los clientes lo único que harán será enviar un mensaje que el servidor mostrará por pantalla.
+Imaginemos que queremos desarrollar el siguiente programa: Un servidor que admita la conexión de múltiples clientes. Los clientes lo único que harán será enviar mensajes hasta que el usuario escriba la palabra "fin". El servidor únicamente los mostrará por pantalla.
 
-A la hora de implementar el servidor podríamos pensar en llamar dos veces al método _accept_ y así obtener dos _sockets_: _conexionCliente1_ y _conexionCliente2_ como se muestra a continuación:
-
-```java
-System.out.println("---SERVIDOR---");
-ServerSocket server = new ServerSocket(1234);
-
-System.out.println("Esperando conexión del primer cliente...");
-Socket conexionCliente1 = server.accept();
-System.out.println("¡Cliente conectado!"); // Se ha conectado el primer cliente
-
-System.out.println("Esperando conexión del segundo cliente...");
-Socket conexionCliente2 = server.accept();
-System.out.println("¡Cliente conectado!"); // Se ha conectado el segundo cliente
-
-```
-Luego podríamos obtener los flujos de entrada para poder leer los datos que nos envien los clientes.
+A continuación, se muestra una posible implementación tanto del servidor como del cliente:
 
 ```java
-// Obtenemos los flujos de entrada
-InputStream entrada1 = conexionCliente1.getInputStream();
-DataInputStream flujoEntrada1 = new DataInputStream(entrada1);
+public class Servidor {
 
-InputStream entrada2 = conexionCliente1.getInputStream();
-DataInputStream flujoEntrada2 = new DataInputStream(entrada2);
+    public static void main(String[] args) {
+        try {
+            System.out.println("---SERVIDOR---");
+            ServerSocket server = new ServerSocket(12345);
+
+            while(true){ // Poner un while(true) no es la mejor práctica, pero se ha hecho así con el objeto de simplificar el código
+
+                System.out.println("Esperando conexión del cliente...");
+                Socket conexionCliente = server.accept();
+                System.out.println("¡Cliente conectado!");
+
+                // Obtenemos los flujos de entrada
+                InputStream entrada = conexionCliente.getInputStream();
+                DataInputStream flujoEntrada = new DataInputStream(entrada);
+
+                String lineaRecibida  = "";
+                // Recibimos datos del cliente hasta que nos envie fin
+                while(!lineaRecibida.equals("fin")){
+                    lineaRecibida = flujoEntrada.readUTF();
+                    if(!lineaRecibida.equals("fin")){
+                        System.out.println("El mensaje recibido es: " + lineaRecibida);
+                    }
+                }
+                conexionCliente.close();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
 ```
-
-_flujoEntrada1_ permitirá leer los datos enviados por el primer cliente y _flujoEntrada2_ los datos enviados por el segundo cliente.
-
-Finalmente, leeríamos los flujos de entrada para obtener el mensaje enviado por los clientes:
 
 ```java
-// Recibimos datos del primer cliente
-String lineaRecibida1 = flujoEntrada1.readUTF();
-System.out.println("El mensaje recibido es: " + lineaRecibida1);
+public class Cliente {
+    public static void main(String[] args) {
+        try {
+            System.out.println("---CLIENTE---");
+            Socket cliente = new Socket("localhost", 12345); // Conectamos al servidor
 
-// Recibimos datos del segundo cliente
-String lineaRecibida2 = flujoEntrada2.readUTF();
-System.out.println("El mensaje recibido es: " + lineaRecibida2);
+            // Obtenemos los flujos salida
+            OutputStream salida = cliente.getOutputStream();
+            DataOutputStream flujoSalida = new DataOutputStream(salida);
+
+            // Enviamos datos al servidor
+            String mensaje = "";
+            while(!mensaje.equals("fin")){
+                Scanner sc = new Scanner(System.in);
+                System.out.print("Escribe el mensaje a enviar: ");
+                mensaje = sc.nextLine();
+                flujoSalida.writeUTF(mensaje);
+            }
+
+            // Cerramos conexiones
+            cliente.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
 ```
+Si lanzamos el servidor y dos clientes* veremos que ocurre lo siguiente: hasta que el primer cliente que se conectó no envie la palabra "fin", es decir, hasta que no cierre la conexión, el servidor no recibirá los mensajes del segundo cliente.
 
-La solución anterior tiene un grave problema: Una vez conectados los dos clientes el servidor quedará bloqueado en la siguiente línea a la espera de recibir datos del primer cliente.
+Esto significa que con la implementación anterior el servidor no va a poder atender de forma concurrente a los diferentes clientes si no que lo hace de forma secuencial.
 
-```java
-String lineaRecibida1 = flujoEntrada1.readUTF();
-```
-Hasta que el servidor no reciba los datos del primer cliente no podrá continuar su ejecución y por tanto no podrá recibir los datos del segundo cliente.
+¿Cómo podemos hacer que el servidor atienda a todos los clientes de forma concurrente? La solución a este problema pasa por utilizar hilos. El servidor, cada vez que reciba la conexión de un cliente, debería lanzar un hilo. El hilo se encargará de gestionar la comunicación con el cliente. De esta forma aunque un hilo se quede bloqueado a la espera de recibir datos de un cliente, el resto de hilos podrán seguir trabajando de forma independiente.
 
-¿Y qué ocurre si estando el servidor esperando los datos del primer cliente el segundo envía los datos? Pues que el mensaje se perderá.
-
-La solución a este problema pasa por utilizar hilos. El servidor, cada vez que reciba la conexión de un cliente, debería lanzar un hilo. El hilo se encargará de gestionar la comunicación con el cliente. De esta forma aunque un hilo se quede bloqueado a la espera de recibir datos de un cliente, el resto de hilos podrán seguir trabajando de forma independiente.
+> * Para ejecutar un mismo programa, en este caso _Cliente_, más de una vez, tenemos que cambiar la siguiente configuración en IntelliJ:
+>
+> En las versiones más recientes del programa la opción la encontraréis en _Run->Edit Configurations_, seleccionad la aplicación que queréis ejecutar múltiples veces (en este caso _Cliente_) y haced clic en "Modify options". Finalmente activa "Allow multiple instances".
+>
+> En versiones más antiguas del programa la opción la encontraréis en _Run->Edit Configurations_, seleccionad la aplicación que queréis ejecutar múltiples veces (en este caso _Cliente_) y haced clic on "Allow parallel run". 
 
 **Ejercicio 4**
 
 Implementa un servidor que permita la conexión de múltiples clientes. Cada vez que se conecte un cliente se creará un hilo encargado de recibir los datos del cliente y mostrarlos por pantalla. Los clientes lo que harán será pedir al usuario que escriba líneas de texto. El cliente dejará de pedir líneas al usuario cuando escriba la palabra "fin". En ese momento el cliente finalizará la conexión. 
+
+### Escritura y lectura simultánea
+
+En el ejercicio 3 implementamos un servidor que admitía la conexión de un cliente. El servidor recibía un mensaje del cliente y a continuación le respondía, esto se repetía hasta que el cliente o el servidor escribía la palabra "fin". El cliente actuaba del mismo modo.
+
+La implementación tenía un inconveniente: ¿Qué ocurre si el cliente o el servidor quiere enviar dos o más mensajes seguidos? No es posible.
+
+A continuación, se muestra un ejemplo de ejecución del servidor.
+
+```
+---SERVIDOR---
+Esperando conexión de un cliente...
+¡Cliente conectado!
+El mensaje recibido es: hola
+Escribe la línea de texto a enviar: hola cliente
+Envío información al cliente...
+```
+Como vemos, el servidor ya ha recibido y enviado un mensaje al cliente y ahora se encuentra esperando la recepción del siguiente mensaje. Hasta que no lo reciba no va a poder enviarle el siguiente mensaje.
+
+Es decir, el envío y recepción de mensajes no es concurrente. De nuevo, la solución a este problema pasa por utilizar hilos. El servidor, cada vez que reciba la conexión de un cliente, debería lanzar dos hilos: uno para la recepción y otro para el envío de información. El cliente debería hacer lo mismo.
+
+**Ejercicio 5**
+
+Modifica el ejercicio 3 para que, haciendo uso de hilos, se puedan enviar y recibir varios mensajes seguidos. La idea es que tanto el cliente como el servidor lancen dos hilos cada uno. Los hilos recibirán el _socket_ a partir del que crearán los flujos de entrada y salida.
 
 # Bibliografía
 
