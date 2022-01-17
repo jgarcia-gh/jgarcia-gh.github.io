@@ -188,14 +188,17 @@ En el código anterior se crean dos instancias de la clase _Cuenta_. El titular 
 <div style="flex: 10px;">
  <img src="./img/ejercicio.png" alt="Ejercicio">
 </div>
-<div  style="flex: 80%; padding-left: 10px;">
+<div  style="flex: 80%; padding-left: 15px;">
+<p><b>Ejercicio 1</b></p>
 <p>
-<b>Ejercicio 1</b></br>
-Queremos desarrollar un programa para gestionar diferentes aspectos de las discotecas de Alicante. De una discoteca se necesita conocer su nombre, superficie en metros cuadrados, precio de la entrada y número de entradas vendidas.
+Programa la clase Mueble, sabiendo que las propiedades que queremos conocer son: modelo, material, tipo, altura, anchura y profundidad. La clase también tendrá un método que permitirá obtener todos los datos del mueble en un String. En el programa principal crea una instancia de Mueble, inicializa sus atributos y muéstralos por pantalla.
+</p>
+<p><b>Ejercicio 2 - Parte A</b></p>
+<p>Queremos desarrollar un programa para gestionar diferentes aspectos de las discotecas de Alicante. De una discoteca se necesita conocer su nombre, superficie en metros cuadrados y precio de la entrada.
 
-A partir de la superficie se debe poder obtener el aforo de la sala teniendo en cuenta que por cada persona debe haber al menos un espacio de 0,5 m2. Además se quiere poder obtener el total de ingresos de la noche multiplicando el número de entradas vendidas por precio de la entrada.
+A partir de la superficie se debe poder obtener el aforo de la sala teniendo en cuenta que la ocupación mínima es de 0,5 metros cuadrados por persona. Además se quiere que, a partir de un número de entradas vendidas se pueda obtener el total de ingresos multiplicando para ello el número de entradas vendidas por su precio.
 
-Crea las clases que consideres necesarias para resolver el problema planteado y comprueba que funciona(n) correctamente.
+Crea la(s) clase(s) que consideres necesarias para resolver el problema planteado y comprueba que funciona(n) correctamente.
 </p>
 
 </div>
@@ -461,7 +464,17 @@ class Cuenta
 ```
 El ejemplo anterior _this.titular_ hace referencia al atributo _titular_, mientras que _titular_ hace referencia al parámetro del método. De esta forma es posible diferenciar a qué variable estamos haciendo referencia.
 
-// Ejercicio 2
+<div style="display: flex;">
+<div style="flex: 10px;">
+ <img src="./img/ejercicio.png" alt="Ejercicio">
+</div>
+<div  style="flex: 80%; padding-left: 15px;">
+<p>
+<b>Ejercicio 1 - Parte B</b><br>
+Modifica el código desarrollado en la Parte A para que haga uso de propiedades. El código debe validar que el precio de la entrada y la superficie de la discoteca no sea inferior a 0. A la hora de obtener los ingresos se debería comprobar que el número de entradas vendidas no es superior al aforo permitido, si lo es se debería devolver la cantidad de ingresos máximos de la discoteca que permite su aforo.
+</p>
+</div>
+</div>
 
 
 ## Constructores
@@ -560,8 +573,17 @@ A partir de ahora podríamos instanciar la clase _Cuenta_ haciendo uso de cualqu
 
 Si no definimos ningún constructor, por defecto C# incluirá un constructor vacío que no recibe ningún parámetro ni tiene código en su cuerpo. Por eso podemos instanciar clases aunque no hayamos implementado ningún constructor.
 
-
-// Ejercicio 3
+<div style="display: flex;">
+<div style="flex: 10px;">
+ <img src="./img/ejercicio.png" alt="Ejercicio">
+</div>
+<div  style="flex: 80%; padding-left: 15px;">
+<p>
+<b>Ejercicio 1 - Parte C</b><br>
+Modifica el ejercicio anterior para hacer uso de constructores de forma que no podamos crear ninguna discoteca sin indicar su nombre y superficie.
+</p>
+</div>
+</div>
 
 ## Miembros estáticos
 
@@ -656,5 +678,15 @@ static void Main(string[] args)
 }
 ```
 
-// Ejercicio 4
+<div style="display: flex;">
+<div style="flex: 10px;">
+ <img src="./img/ejercicio.png" alt="Ejercicio">
+</div>
+<div  style="flex: 80%; padding-left: 15px;">
+<p>
+<b>Ejercicio 1 - Parte 4</b><br>
+Debido al COVID se desea poder controlar el aforo de todas las discotecas y fijarlo en un 50%. Realiza las modificaciones pertinentes.
+</p>
+</div>
+</div>
 
