@@ -49,7 +49,7 @@ Dentro de la clase definiremos sus características mediante el uso de **campos 
 Para continuar con la explicación pondremos un ejemplo que desarrollaremos a lo largo de la unidad. Imaginemos que vamos a desarrollar un programa para gestionar cuentas bancarias. Podríamos definir las siguientes características y comportamientos:
 
 - Características: número de cuenta, titular y saldo.
-- Comportamientos: realizar ingreso, realizar reintegro, cambiar titular y obtener información.
+- Comportamientos: realizar ingreso y realizar reintegro.
 
 Por supuesto, se nos podrían ocurrir mil características y comportamientos mas, cuáles vamos a considerar en nuestro programa dependerá del problema que queramos resolver.
 
@@ -188,7 +188,7 @@ En el código anterior se crean dos instancias de la clase _Cuenta_. El titular 
 <div style="flex: 10px;">
  <img src="./img/ejercicio.png" alt="Ejercicio">
 </div>
-<div  style="flex: 80%; padding-left: 15px;">
+<div  style="flex: 80%; padding-left: 1em;">
 <p><b>Ejercicio 1</b></p>
 <p>
 Programa la clase Mueble, sabiendo que las propiedades que queremos conocer son: modelo, material, tipo, altura, anchura y profundidad. La clase también tendrá un método que permitirá obtener todos los datos del mueble en un String. En el programa principal crea una instancia de Mueble, inicializa sus atributos y muéstralos por pantalla.
@@ -196,13 +196,9 @@ Programa la clase Mueble, sabiendo que las propiedades que queremos conocer son:
 <p><b>Ejercicio 2 - Parte A</b></p>
 <p>Queremos desarrollar un programa para gestionar diferentes aspectos de las discotecas de Alicante. De una discoteca se necesita conocer su nombre, superficie en metros cuadrados y precio de la entrada.
 
-A partir de la superficie se debe poder obtener el aforo de la sala teniendo en cuenta que la ocupación mínima es de 0,5 metros cuadrados por persona. Además se quiere que, a partir de un número de entradas vendidas se pueda obtener el total de ingresos multiplicando para ello el número de entradas vendidas por su precio.
+A partir de la superficie se debe poder obtener el aforo de la sala teniendo en cuenta que la ocupación mínima es de 0,5 metros cuadrados por persona. Además se quiere tener un método que, dado un número de entradas vendidas, devuelva el total de ingresos multiplicando para ello el número de entradas vendidas por su precio.
 
 Crea la(s) clase(s) que consideres necesarias para resolver el problema planteado y comprueba que funciona(n) correctamente.
-</p>
-
-</div>
-</div>
 
 ## Modificadores de accesibilidad
 
@@ -280,7 +276,6 @@ class Cuenta
 ```
 
 Al hacer el cambio anterior se producirán los siguientes errores:
-
 
 ```csharp
 static void Main(string[] args)
@@ -468,7 +463,7 @@ El ejemplo anterior _this.titular_ hace referencia al atributo _titular_, mientr
 <div style="flex: 10px;">
  <img src="./img/ejercicio.png" alt="Ejercicio">
 </div>
-<div  style="flex: 80%; padding-left: 15px;">
+<div  style="flex: 80%; padding-left: 1em;">
 <p>
 <b>Ejercicio 1 - Parte B</b><br>
 Modifica el código desarrollado en la Parte A para que haga uso de propiedades. El código debe validar que el precio de la entrada y la superficie de la discoteca no sea inferior a 0. A la hora de obtener los ingresos se debería comprobar que el número de entradas vendidas no es superior al aforo permitido, si lo es se debería devolver la cantidad de ingresos máximos de la discoteca que permite su aforo.
@@ -577,7 +572,7 @@ Si no definimos ningún constructor, por defecto C# incluirá un constructor vac
 <div style="flex: 10px;">
  <img src="./img/ejercicio.png" alt="Ejercicio">
 </div>
-<div  style="flex: 80%; padding-left: 15px;">
+<div  style="flex: 80%; padding-left: 1em;">
 <p>
 <b>Ejercicio 1 - Parte C</b><br>
 Modifica el ejercicio anterior para hacer uso de constructores de forma que no podamos crear ninguna discoteca sin indicar su nombre y superficie.
@@ -682,7 +677,7 @@ static void Main(string[] args)
 <div style="flex: 10px;">
  <img src="./img/ejercicio.png" alt="Ejercicio">
 </div>
-<div  style="flex: 80%; padding-left: 15px;">
+<div  style="flex: 80%; padding-left: 1em;">
 <p>
 <b>Ejercicio 1 - Parte 4</b><br>
 Debido al COVID se desea poder controlar el aforo de todas las discotecas y fijarlo en un 50%. Realiza las modificaciones pertinentes.
