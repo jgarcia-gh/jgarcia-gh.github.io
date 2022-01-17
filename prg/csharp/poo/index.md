@@ -199,7 +199,10 @@ Programa la clase Mueble, sabiendo que las propiedades que queremos conocer son:
 A partir de la superficie se debe poder obtener el aforo de la sala teniendo en cuenta que la ocupación mínima es de 0,5 metros cuadrados por persona. Además se quiere tener un método que, dado un número de entradas vendidas, devuelva el total de ingresos multiplicando para ello el número de entradas vendidas por su precio.
 
 Crea la(s) clase(s) que consideres necesarias para resolver el problema planteado y comprueba que funciona(n) correctamente.
+</p>
 
+</div>
+</div>
 ## Modificadores de accesibilidad
 
 Las clases y sus miembros serán visibles o accesibles por otras clases en función de los modificadores de accesibilidad utilizados.
