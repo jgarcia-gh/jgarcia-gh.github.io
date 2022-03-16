@@ -4,15 +4,16 @@ layout: unit
 ---
 # Herencia, clases abstractas e interfaces
 
-## Introducción
+# Introducción
 
 La herencia es una característica de la programación orientada a objetos que permite que diferentes miembros (campos, propiedades o métodos) de una clase se transmitan a otra, permitiéndonos reutilizar el código.
 
 La clase de la que se hereda se denomina clase padre, superclase o clase base, y la clase que hereda es conocida como clase hija, subclase o clase derivada.
 
-La subclase dispone de los miembros heredados de la superclase y, generalmente, se amplía añadiendo sus propios miembros.
+La subclase dispone de los miembros heredados de la superclase y generalmente se amplía añadiendo sus propios miembros.
 
-Podemos indicar que una clase hereda de otra de la siguiente forma:
+# Conceptos básicos
+En C# una clase hereda de otra de la siguiente forma:
 
 ```csharp
 public class Empleado{
@@ -23,11 +24,11 @@ public class Comercial : Empleado{
     // definición de la clase Comercial
 }
 ```
-En este caso la clase _Comercial_ hereda de _Empleado_. Siempre hay que recordar que la herencia es una relación de tipo _es un_. Comercial puede heredar de empleado porque un comercial _es un_ empleado.
+En este caso la clase _Comercial_ hereda de _Empleado_. Siempre hay que recordar que la herencia es una relación de tipo _es un_. Comercial puede heredar de empleado porque un comercial _es un_ empleado sin embargo un empleado _no es_ un comercial.
 
 En lenguajes como C++ es posible heredar de múltiples clases, sin embargo en Java y C# esto no es posible. Esto no impide que podamos generar una jerarquía de clases: La clase _LibroElectronico_ y _LibroDigital_ heredan de _Libro_ que a su vez hereda de _Artículo_.
 
-# Modificadores de accesibilidad _protected_
+## Modificadores de accesibilidad _protected_
 
 Una clase hereda todos los miembros de la clase padre, aunque aquellos que sean _private_ no serán accesibles desde la subclase.
 
@@ -45,11 +46,11 @@ public class C {
 ```
 Dado el ejemplo anterior:
 
-- _a_ y _b_ son accesibles únicamente desde la propia clase.
+- _a_ y _b_ son accesibles únicamente desde la propia clase. En el caso de _b_ hay que recordar que el modificador de accesibilidad por defecto es _private_.
 - _c_ es accesible desde la clase _C_ y sus subclases.
-- _d_ es visible desde cualquier clase.
+- _d_ es accesible desde cualquier clase.
 
-# Constructor base
+## Constructor base
 Si heredamos de una clase que no tiene constructores definidos (en realidad por defecto siempre tendrá el constructor vacío) en la clase derivada no será obligatorio definir un constructor ni llamar al constructor padre.
 
 En el siguiente ejemplo, puesto que la clase _Empleado_ no tiene constructor, no estamos obligados a definir un constructor en la clase _Comercial_.
@@ -121,11 +122,6 @@ class Empleado
         SalarioBrutoMensual = salarioBrutoMensual;
         Irpf = irpf;
     }
-
-    public float CalcularSalarioNeto()
-    {
-        return SalarioBrutoMensual - (SalarioBrutoMensual * Irpf);
-    }
 }
 ```
 Pero se puede aplicar a cualquier método. Por ejemplo, el método _WriteLine_ de la clase _Console_ tiene 19 sobrecargas para poder mostrar por pantalla variables de diferentes tipos.
@@ -149,7 +145,7 @@ Imaginemos que nuestra clase _Empleado_ tiene un método para calcular el salari
     }
 ```
 
-Sin embargo nos dicen que el cálculo del salario de un comercial es diferente, ya que se tiene en cuenta la comisión de las ventas que haga. Es decir, necesitamos que la clase _Comercial_ también tenga un método _CalcularSalarioNeto_ cuyo cuerpo será diferente al del método padre.
+Sin embargo nos dicen que el cálculo del salario de un comercial es diferente ya que para su cálculo también se tiene en cuenta la comisión de las ventas que haga. Es decir, necesitamos que la clase _Comercial_ también tenga un método _CalcularSalarioNeto_ cuyo cuerpo será diferente al del método padre.
 
 Para poder sorbeescribir el método en primer lugar tendremos que cambiar la definición del método _CalcularSalarioNeto_ en la clase _Empleado_ para añadirle el modificador _virtual_ del siguiente modo:
 
@@ -220,10 +216,11 @@ static void IncrementarSueldo (Empleado e, float productividad)
     e.SalarioBrutoMensual += incremento;
 }
 ```
+En el ejemplo anterior al método _IncrementarSueldo_ podemos pasarle como parámetro cualquier empleado incluídos los comerciales.
 
-También nos permite poder almacenar diferentes tipos de empleados en una única lista, independientemente de que sean comerciales, técnicos o administrativos.
+Este tipo de polimorfismo también nos permite almacenar diferentes tipos de empleados en una única lista, independientemente de que sean comerciales, técnicos o administrativos. De esta forma evitamos tener una lista por cada tipo de empleado.
 
-### Conversión o _cast_ de tipos
+## Conversión o _cast_ de tipos
 Debido al polimorfismo de asignación hemos visto que podemos realizar la siguiente asignación:
 
 ```csharp
@@ -238,10 +235,15 @@ Si se quiere recuperar el acceso a los miembros de la subclase será necesario r
 Empleado e1 = new Comercial("Juan", 1000, 100);
 Comercial c1 = (Comercial) e1;
 ```
+La operación de conversión producirá una excepción _InvalidCastException_ si intentamos realizar una conversión que no es válida.
 
+En C# también disponemos del operador _as_  para realizar esta conversión. La diferencia con la operación de _cast_ es que _as_ devuelve _null_ en vez de producir una excepción en caso de que no pueda realizar la conversión.
+```csharp
+Comercial c1 = e1 as Comercial;
+```
 ## Selección dinámica de métodos
 
-Dado el siguiente fragmento de código, a la hora de ejecutar el método _CalcularSalarioNeto_ el entorno de ejecución comprobará que dicho método existe en la clase _Empleado_ pero que está redefinido el de la clase _Comercial_, puesto que la referencia almacenada en la variable _e_ realmente es de tipo _Comercial_ el método que se ejecutará será el de la clase _Comercial_. Este mecanismo recibe el nombre de selección dinámica de métodos.
+Dado el siguiente fragmento de código, a la hora de ejecutar el método _CalcularSalarioNeto_ el entorno de ejecución comprobará que dicho método existe en la clase _Empleado_ y que está sobreescrito en la clase _Comercial_. En este caso el método que se ejecutará será el de la clase _Comercial_ y no el de _Empleado_. Este mecanismo recibe el nombre de selección dinámica de métodos.
 ```csharp
 static void Main(string[] args)
 {
@@ -255,17 +257,18 @@ static void Main(string[] args)
 En C# absolutamente todas las clases descienden de la clase _Object_. Incluso cualquier clase que implementemos nosotros. Esta herencia se realiza por defecto sin necesidad de especificar nada.
 
 Con ello se consigue:
-- Que todas las clases implementen un conjunto de métodos que son de uso universal en C#, destinados a realizar comparaciones entre objetos, comprobar si son iguales o representar un objeto como una cadena de caracteres.
-- Poder referenciar cualquier objeto, de cualquier tipo, mediante una clase de tipo _Object_.
+- Que todas las clases implementen un conjunto de métodos que son de uso universal en C#. Estos métodos están destinados a realizar comparaciones entre objetos, comprobar si son iguales o representar un objeto como una cadena de caracteres.
+- Poder referenciar cualquier objeto, de cualquier tipo, mediante una variable de tipo _Object_.
 
 Por ese motivo podemos hacer la siguiente asignación.
 
 ```csharp
 Object o = new Comercial("Juan", 1000, 100);
 ```
+_Comercial_ hereda de _Empleado_ y _Empleado_ hereda de _Object_.
 
 ## Método ToString
-La clase _Object_ implementa el método _ToString_. La implementación por defecto devuelve el nombre completo de la clase. Por eso, si ejecutamos lo siguiente:
+La clase _Object_ implementa el método virtual _ToString_. La implementación por defecto devuelve el nombre completo de la clase. Por eso, si ejecutamos lo siguiente:
 
 ```csharp
 static void Main(string[] args)
@@ -279,7 +282,7 @@ Se muestra por pantalla:
 ```csharp
 U8.Empleado
 ```
-Si nos fijamos en la sobrecarga del método _WriteLine_ que se está utilizando (pasando el cursor por encima), veremos que se está llamando al método que recibe por parámetro un objeto de tipo _Object_. Internamente lo que hace el método _WriteLine_ es llamar al método _ToString_ del objeto que recibe por parámetro, la cadena que devuelve el método es lo que muestra por pantalla.
+Si nos fijamos en la sobrecarga del método _WriteLine_ que se está utilizando (pasando el cursor por encima), veremos que se está llamando la sobrecarga del método que recibe por parámetro un objeto de tipo _Object_. Internamente lo que hace el método _WriteLine_ es llamar al método _ToString_ del objeto que recibe por parámetro y la cadena que devuelve dicho método es lo que muestra por pantalla.
 
 Si queremos cambiar este comportamiento podemos sobreescribir en la clase _Empleado_ el método _ToString_.
 
@@ -290,8 +293,84 @@ public override string ToString()
 }
 ```
 Si ejecutamos de nuevo el código anterior ahora se mostrará por pantalla:
-Se muestra por pantalla:
 ```csharp
 Nombre: Juan Bruto: 1000 Neto: 900
 ```
+<!--
+## Método Equals
+Imaginemos que tenemos una clase _Punto_ con dos propiedades _X_ y _Y_ y creamos dos instancias del siguiente modo:
+```csharp
+Punto p1 = new Punto();
+p1.X = 10; p1.Y = 20;
+Punto p2 = new Punto();
+p2.X = 10; p2.Y = 20;
+```
+Si comparamos las instancias con el operador == obtendremos que son diferentes ya que sus referencias son distintas.
+```csharp
+Console.WriteLine(p1==p2); // Muestra falso
+```
+Puede interesarnos crear un método para comparar dos objetos más allá de comprobar si el objeto referenciado es el mismo. Para ello podemos sobreescribir el método _Equals_ de la clase _Object_.
 
+```csharp
+public virtual bool Equals (object? obj);
+```
+https://stackoverflow.com/questions/371328/why-is-it-important-to-override-gethashcode-when-equals-method-is-overridden
+-->
+
+## Método _GetType_, operador _typeof_ e _is_
+El método _GetType_ permite obtener el tipo de una instancia en tiempo de ejecución.
+```csharp
+static void Main(string[] args)
+{
+    Empleado e = new Empleado("Juan", 1000, 0.1f);
+    Console.WriteLine(e.GetType()); // Muestra U8.Empleado
+    Console.ReadKey();
+}
+```
+Mediante el operador _typeof_ obtenemos el tipo de una clase. 
+```csharp
+static void Main(string[] args)
+{
+    Type t = typeof(Empleado);
+    Console.WriteLine(t); // Muestra U8.Empleado
+    Console.ReadKey();
+}
+```
+Podemos utilizar el _GetType_ y _typeof_ para saber si una instancia es de un determinado tipo o no.
+
+```csharp
+static void Main(string[] args)
+{
+    // Caso A
+    Empleado e1 = new Empleado("Juan", 1000, 0.1f);
+    Console.WriteLine(e1.GetType() == typeof(Empleado)); // Muestra true
+    // Caso B
+    Comercial c1 = new Comercial("Sonia", 1200, 500);
+    Console.WriteLine(c1.GetType() == typeof(Empleado)); // Muestra false
+    // Caso C
+    Empleado e2 = new Comercial("Rubén", 1100, 300);
+    Console.WriteLine(e2.GetType() == typeof(Empleado)); // Muestra false
+    Console.ReadKey();
+}
+```
+- Caso A: Puesto que _e1_ es una variable de tipo _Empleado_ la comparación da como resultado _true_.
+- Caso B: _c1.GetType()_ devuelve _U8.Comercial_, mientras que typeof(Empleado) devuelve _U8.Empleado_. La comparación da como resultado _false_ aunque exista una relación herencia entre las clases.
+- Caso C: Este es un caso especial ya que _e2.GetType()_ devuelve _U8.Comercial_ aunque se haya declarado como una variable de tipo _Empleado_. Por otra parte _typeof(Empleado)_ devuelve _U8.Empleado_ por lo que la comparación da como resultado _false_.
+
+Para saber si una instancia es de una determinada clase pertenece a una jerarquía de herencias podemos utilizar el operador _is_.
+
+```csharp
+static void Main(string[] args)
+{
+    // Caso A
+    Empleado e1 = new Empleado("Juan", 1000, 0.1f);
+    Console.WriteLine(e1 is Empleado); // Muestra true
+    // Caso B
+    Comercial c1 = new Comercial("Sonia", 1200, 500);
+    Console.WriteLine(c1 is Empleado); // Muestra true
+    // Caso C
+    Empleado e2 = new Comercial("Rubén", 1100, 300);
+    Console.WriteLine(e2 is Empleado); // Muestra true
+    Console.ReadKey();
+}
+```
