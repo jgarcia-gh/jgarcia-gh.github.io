@@ -374,3 +374,31 @@ static void Main(string[] args)
     Console.ReadKey();
 }
 ```
+
+# Clases abstractas
+
+Cuando creamos una herencia podemos encontrarnos con uno o varios métodos que sabemos que deben tener todas las subclases pero que no sabemos o podemos implementar en la superclase. En ese caso podemos definir el método en la superclase pero delegar su implementación a las subclases. Se dirá que el método es abstracto. El resto de métodos (no abstractos) y propiedades de la clase se heredarán normalmente.
+
+Para declarar un método abstracto se antepone el modificador _abstract_ y se sustituyen las llaves {} por un punto y coma. Las clases que tengan un método abstracto tendrán que declararse a su vez abstractas y no serán instanciables.
+
+```csharp
+abstract class Animal
+{
+    public int Edad { get; set; }
+    public string Nombre { get; set; }
+    public abstract void Sonido();
+}
+```
+Las subclases se encargarán de implementar los métodos abstractos. Para ello se utilizará la palabra clave _override_ como se muestra a continuación. 
+
+```csharp
+    class Perro : Animal
+    {
+        public override void Sonido()
+        {
+            Console.WriteLine("WOW!");
+        }
+    }
+```
+
+Si una clase hereda de una clase abstracta y deja alguno de sus métodos abstractos sin implementar entonces también será abstracta.
