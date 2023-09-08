@@ -1,9 +1,9 @@
 ---
-title: Comunicaciones en red
+title: Comunicaciones en Red con Sockets
 layout: unit
 ---
 
-# Comunicaciones en red 
+# Comunicaciones en Red con Sockets
 
 - [Comunicaciones en red](#comunicaciones-en-red)
   - [Introducción](#introducción)
