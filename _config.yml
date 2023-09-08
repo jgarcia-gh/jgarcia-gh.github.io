@@ -6,3 +6,4 @@ github:
   is_user_page: false
 show_downloads: false
 theme: jekyll-theme-minimal
+gems: ["jemoji"]
