@@ -1,11 +1,10 @@
-## Recursos
-Programación en C#
+## :memo: Recursos
+### Programación
+
+C#
 - [Programación Orientada a Objetos](/prg/csharp/poo)
 
-Programación de Servicios y Procesos
-
-:orange_book:
-
-- [Programación Concurrente ( :orange_book: Libro )](/psp/concurrente)
-- [Comunicaciones en Red](/psp/comunicaciones)
+Java
+- [Programación Concurrente (:books:Libro)](/prg/java/concurrente)
+- [Comunicaciones en Red con Sockets](/prg/java/comunicaciones)
 
