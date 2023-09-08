@@ -14,6 +14,7 @@ Siguiendo el currículo del módulo, se incluye un anexo sobre sistemas multipro
 Partiendo de que el lector tiene conocimientos básicos de programación, en el último anexo se recoge un breve resumen de la sintaxis y principales características de Java.
 <br/>
 En total se incluyen más de 25 ejemplos cuyo código fuente se puede descargar desde la web del autor y más de 30 ejercicios prácticos. |
+|---|---|
 
 [Enlace a la tienda de bubok](https://www.bubok.es/libros/276469/programacion-concurrente)
 
