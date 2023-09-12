@@ -21,6 +21,6 @@ En total se incluyen más de 25 ejemplos cuyo código fuente se puede descargar 
 [Enlace a la tienda de bubok](https://www.bubok.es/libros/276469/programacion-concurrente)
 
 ## Recursos
-:file_folder:[Ejemplos](https://github.com/jgarcia-gh/psp-ejemplos): Proyecto de IntelliJ IDEA con todos los ejemplos del libro.
+:file_folder: [Ejemplos](https://github.com/jgarcia-gh/psp-ejemplos): Proyecto de IntelliJ IDEA con todos los ejemplos del libro.
 
-:file_folder:[Ejercicios por resolver](): Proyecto de IntelliJ IDEA con la estructura de paquetes y plantillas de los ejercicios.
+:file_folder: [Ejercicios por resolver](): Proyecto de IntelliJ IDEA con la estructura de paquetes y plantillas de los ejercicios.
